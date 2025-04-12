@@ -1,0 +1,33 @@
+@startuml
+start
+:Inisialisasi data:
+- Mata Kuliah,
+- Dosen (beserta preferensi),
+- Ruang Kelas,
+- Slot Waktu;
+:Mulai proses penjadwalan;
+:Ambil mata kuliah pertama yang belum dijadwalkan;
+if (Ada mata kuliah yang belum dijadwalkan?) then (Tidak)
+  :Solusi jadwal optimal ditemukan;
+  stop
+else (Ya)
+  :Lakukan perulangan untuk setiap kombinasi:
+  :Pilih kombinasi ruang & waktu;
+  if (Kombinasi valid? 
+      (tidak bentrok, memenuhi preferensi dosen, dsb)) then (Ya)
+    :Tetapkan mata kuliah ke kombinasi tersebut;
+    :Lanjutkan ke mata kuliah berikutnya (rekursif);
+    if (Solusi lengkap?) then (Ya)
+      :Solusi ditemukan;
+      stop
+    else (Tidak)
+      :Hapus penetapan (backtracking);
+      :Coba kombinasi alternatif;
+    endif
+  else (Tidak)
+    :Coba kombinasi selanjutnya;
+  endif
+endif
+:Jika semua kombinasi telah dicoba, return false;
+stop
+@enduml
