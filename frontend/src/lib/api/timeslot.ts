@@ -6,7 +6,7 @@ export async function getTimeslots(): Promise<Timeslot[]> {
     return res.data.data;
 }
 
-export async function createTimeslot(data: Omit<Timeslot, 'id'>): Promise<Timeslot> {
+export async function addTimeslot(data: Omit<Timeslot, 'id'>): Promise<Timeslot> {
     const res = await axiosInstance.post('/timeslots', data);
     return res.data.data;
 }

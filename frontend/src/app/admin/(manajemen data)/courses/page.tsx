@@ -1,8 +1,10 @@
 'use client'
 
 import { AddCourse } from "@/components/features/admin/courses/AddCourse"
+import { CourseDialog } from "@/components/features/admin/courses/course-dialog"
 import { CoursesTable } from "@/components/features/admin/courses/CoursesTable"
 import { DeleteCourse } from "@/components/features/admin/courses/DeleteCourse"
+import { EditCourse } from "@/components/features/admin/courses/EditCourse"
 import { getCourses } from "@/lib/api/course"
 import { Course } from "@/types/course"
 import { useQuery } from "@tanstack/react-query"
@@ -11,6 +13,7 @@ import { useEffect, useState } from "react"
 export default function CoursesPage() {
     const [currentCourse, setCurrentCourse] = useState<Course | null>(null);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
     useEffect(() => { document.title = "Courses - Admin" }, [])
 
@@ -24,6 +27,11 @@ export default function CoursesPage() {
         setIsDeleteDialogOpen(true);
     };
 
+    const handleEdit = (course: Course) => {
+        setCurrentCourse(course);
+        setIsEditDialogOpen(true);
+    }
+
     return (
         <div>
             {isError && (<p>{error.message} </p>)}
@@ -31,12 +39,21 @@ export default function CoursesPage() {
                 <h1 className="text-3xl font-bold tracking-tight">Courses</h1>
                 <AddCourse />
             </div>
+
             <CoursesTable
                 data={data}
                 isLoading={isLoading}
                 pageSize={10}
                 onDelete={handleDelete}
-                onEdit={() => { }} />
+                onEdit={handleEdit} />
+
+            {currentCourse && (
+                <EditCourse
+                    course={currentCourse}
+                    onOpenChange={setIsEditDialogOpen}
+                    open={isEditDialogOpen}
+                />
+            )}
 
             <DeleteCourse
                 course={currentCourse!}

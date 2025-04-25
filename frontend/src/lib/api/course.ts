@@ -16,3 +16,8 @@ export async function deleteCourse(id: number) {
     const res = await axiosInstance.delete(`/course/${id}`)
     return res.data.data
 }
+
+export async function updateCourse(course: Course) {
+    const res = await axiosInstance.put(`/course/${course.id}`, course)
+    return res.data.data
+}

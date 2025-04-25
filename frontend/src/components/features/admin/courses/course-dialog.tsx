@@ -31,7 +31,7 @@ const courseSchema = z.object({
     duration: z.coerce.number().int().min(30, "Duration must be at least 30 minutes").max(240, "Duration cannot exceed 240 minutes"),
 });
 
-type CourseFormValues = z.infer<typeof courseSchema> & { id?: number };
+export type CourseFormValues = z.infer<typeof courseSchema> & { id?: number };
 interface ServerError { path: string; msg: string }
 
 interface CourseDialogProps {
@@ -62,6 +62,10 @@ export function CourseDialog({
         resolver: zodResolver(courseSchema),
         defaultValues,
     });
+
+    useEffect(() => {
+        if (open) form.reset(defaultValues);
+    }, [open]);
 
     useEffect(() => {
         serverErrors?.forEach(e => {

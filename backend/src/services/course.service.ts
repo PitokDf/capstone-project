@@ -15,9 +15,16 @@ export const getCourseByCodeService = async (code: string) => {
     if (!course) throw new AppError(`Course dengan code: ${code} tidak ditemukan`, 404);
     return course
 }
-export const checkCourseByCodeExistsService = async (code: string) => {
+
+export const checkCourseByCodeExistsService = async (code: string, ignoreId?: number) => {
+    const whereClause: any = { code }
+
+    if (ignoreId) {
+        whereClause.id = { not: ignoreId }
+    }
+
     const course = await prisma.course.findFirst({
-        where: { code, }
+        where: whereClause,
     })
 
     return course ? true : false
