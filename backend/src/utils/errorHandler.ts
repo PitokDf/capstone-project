@@ -2,10 +2,12 @@ import { Response } from "express";
 
 export class AppError extends Error {
     public errors?: any[];
+    public statusCode?: number;
 
-    constructor(messsage: string, errors?: any[]) {
+    constructor(messsage: string, statusCode?: number, errors?: any[]) {
         super(messsage)
-        this.errors = errors
+        this.errors = errors;
+        this.statusCode = statusCode;
 
         Object.setPrototypeOf(this, AppError.prototype)
         Error.captureStackTrace(this, this.constructor)
@@ -14,7 +16,7 @@ export class AppError extends Error {
 
 export const handlerAnyError = (error: any, res: Response) => {
     if (error instanceof AppError) {
-        return res.status(400).json({
+        return res.status(error.statusCode || 400).json({
             message: error.message,
             errors: error.errors
         })

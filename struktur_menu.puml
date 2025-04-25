@@ -1,0 +1,25 @@
+@startuml
+skinparam defaultTextAlignment center
+
+package "Aplikasi Penjadwalan Mata Kuliah" {
+    
+    folder "Menu Admin" {
+        [Dashboard]
+        [Manajemen User]
+        [Manajemen Dosen]
+        [Manajemen Mata Kuliah]
+        [Manajemen Ruangan]
+        [Manajemen Slot Waktu]
+        [Penjadwalan Otomatis]
+        [Laporan Jadwal]
+        [Logout]
+    }
+
+    folder "Menu Dosen" {
+        [Dashboard Dosen]
+        [Lihat Jadwal]
+        [Cetak Tugas Mengajar]
+        [Logout Dosen]
+    }
+}
+@enduml

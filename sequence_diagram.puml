@@ -1,0 +1,16 @@
+@startuml
+actor Admin
+participant Frontend
+participant Backend
+participant Database
+
+Admin -> Frontend : Masukkan kredensial
+Frontend -> Backend : Kirim kredensial
+Backend -> Database : Verifikasi kredensial
+Database --> Backend : Hasil verifikasi
+Backend -> Backend : Generate JWT
+Backend --> Frontend : Kirim JWT
+Frontend -> Backend : Akses endpoint dengan JWT
+Backend -> Backend : Verifikasi JWT
+Backend --> Frontend : Respons data
+@enduml

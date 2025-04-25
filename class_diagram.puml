@@ -1,0 +1,76 @@
+@startuml
+class User {
+    +id : int
+    +username : string
+    +password : string
+    +role : string
+    +addUser(): User
+    +editUser(): User
+    +deleteUser(): void
+    +login(username:string,password:string): string
+    +logout(): void
+    +viewProfile(): User
+    +changePassword(oldPass:string,newPass:string): boolean
+}
+
+class Lecturer {
+    +id : int
+    +name : string
+    +preference : string
+    +addLecturer(): Lecturer
+    +editLecturer(): Lecturer
+    +deleteLecturer(): void
+    +viewLecturerSchedule(lecturerId:int): Schedule[]
+}
+
+class Course {
+    +id : int
+    +code : string
+    +name : string
+    +credit : int
+    +duration : int
+    +addCourse(): Course
+    +editCourse(): Course
+    +deleteCourse(): void
+    +getCourseList(): Course[]
+}
+
+class Room {
+    +id : int
+    +code : string
+    +capacity : int
+    +addRoom(): Room
+    +editRoom(): Room
+    +deleteRoom(): void
+    +getRoomAvailability(): TimeSlot[]
+}
+
+class TimeSlot {
+    +id : int
+    +day : string
+    +startTime : string
+    +endTime : string
+    +addTimeSlot(): TimeSlot
+    +editTimeSlot(): TimeSlot
+    +deleteTimeSlot(): void
+    +getAvailableSlots(): TimeSlot[]
+}
+
+class Schedule {
+    +id : int
+    +courseId : int
+    +lecturerId : int
+    +roomId : int
+    +timeSlotId : int
+    +generateSchedule(): Schedule[]
+    +viewSchedule(): Schedule[]
+    +exportSchedule(format:string): File
+    +rescheduleCourse(courseId:int,newSlot:TimeSlot): boolean
+}
+
+User "1" -- "0..1" Lecturer
+Lecturer "1" -- "*" Course
+Course "1" -- "*" Schedule
+Room "1" -- "*" Schedule
+TimeSlot "1" -- "*" Schedule
+@enduml

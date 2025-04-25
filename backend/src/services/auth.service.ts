@@ -23,6 +23,7 @@ export const emailExists = async (email: string) => {
     const user = await prisma.user.findFirst({ where: { email } });
     return user ? true : false
 }
+
 export const usernameExists = async (username: string) => {
     const user = await prisma.user.findFirst({ where: { username } });
     return user ? true : false

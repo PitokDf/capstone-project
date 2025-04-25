@@ -1,0 +1,31 @@
+@startuml
+left to right direction
+actor Admin
+
+rectangle "Use Case Admin" {
+    (Login) as UC_Login
+    (Kelola Users) as UC_ManageUsers
+    (Kelola Dosen) as UC_ManageLecturers
+    (Kelola Mata Kuliah) as UC_ManageCourses
+    (Kelola Ruangan) as UC_ManageRooms
+    (Kelola Slot Waktu) as UC_ManageTimeSlots
+    (Generate Jadwal) as UC_GenerateSchedule
+    (Lihat Jadwal) as UC_ViewSchedule
+}
+
+Admin --> UC_Login
+Admin --> UC_ManageUsers : <<include>> UC_Login
+Admin --> UC_ManageLecturers : <<include>> UC_Login
+Admin --> UC_ManageCourses : <<include>> UC_Login
+Admin --> UC_ManageRooms : <<include>> UC_Login
+Admin --> UC_ManageTimeSlots : <<include>> UC_Login
+Admin --> UC_GenerateSchedule : <<include>> UC_Login
+Admin --> UC_ViewSchedule : <<include>> UC_Login
+
+UC_GenerateSchedule --> UC_ManageUsers : <<include>>
+UC_GenerateSchedule --> UC_ManageLecturers : <<include>>
+UC_GenerateSchedule --> UC_ManageCourses : <<include>>
+UC_GenerateSchedule --> UC_ManageRooms : <<include>>
+UC_GenerateSchedule --> UC_ManageTimeSlots : <<include>>
+UC_ViewSchedule --> UC_Login : <<include>>
+@enduml

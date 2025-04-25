@@ -5,8 +5,7 @@ export const jwtCheckToken = (req: Request, res: Response, next: NextFunction) =
     const token = req.headers.authorization?.split(" ")[1];
     if (!token) return res.status(401).json({ messagge: "Token dibutuhkan." });
 
-    const JWT_SECRET = process.env.JWT_SECREET || "123456"
-    console.log(JWT_SECRET);
+    const JWT_SECRET = process.env.JWT_SECREET || "123456";
 
     verify(token, JWT_SECRET, {
         algorithms: ["HS256"]

@@ -1,0 +1,9 @@
+@startuml
+left to right direction
+actor Dosen
+
+rectangle "Use Case Dosen dan Mahasiswa" {
+    (Lihat Jadwal) as UC_D_ViewSchedule
+}
+Dosen --> UC_D_ViewSchedule
+@enduml

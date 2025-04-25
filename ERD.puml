@@ -1,0 +1,58 @@
+@startuml
+entity User {
+  *id: int
+    --
+    username: string
+    email: string
+    password: string
+}
+
+entity Lecturer {
+  *id: int
+    --
+    nip: string
+    name: string
+    preference: string
+}
+
+entity Course {
+  *id: int
+    --
+    code: string
+    name: string
+    sks: int
+    duration: int
+}
+
+entity Room {
+  *id: int
+    --
+    code: string
+    name: string
+    capacity: int
+    location: string
+}
+
+entity TimeSlot {
+  *id: int
+    --
+    day: string
+    startTime: time
+    endTime: time
+}
+
+entity Schedule {
+  *id: int
+    --
+    courseId: int
+    lecturerId: int
+    roomId: int
+    timeSlotId: int
+}
+
+User ||--o{ Lecturer
+Lecturer ||--o{ Course
+Course ||--o{ Schedule
+Room ||--o{ Schedule
+TimeSlot ||--o{ Schedule
+@enduml
