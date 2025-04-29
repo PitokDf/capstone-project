@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,21 +23,25 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { LoaderCircle } from 'lucide-react';
 
 // Schema for lecturer form validation
 const lecturerSchema = z.object({
-    nip: z.string().min(6, "NIP must be at least 6 characters"),
+    nip: z.string().min(6, "NIP must be at least 6 characters").regex(/^\d+$/, "NIP harus berupa angka saja"),
     name: z.string().min(3, "Name must be at least 3 characters"),
     preference: z.string(),
 });
 
 type LecturerFormValues = z.infer<typeof lecturerSchema> & { id?: number };
 
+interface ServerError { path: string; msg: string }
 interface LecturerDialogProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    onSave: (data: LecturerFormValues) => void;
+    onSave: (data: LecturerFormValues) => Promise<void>;
     title: string;
+    onLoading?: boolean;
+    serverErrors?: ServerError[];
     defaultValues?: LecturerFormValues & { id?: number };
 }
 
@@ -46,6 +50,8 @@ export function LecturerDialog({
     onOpenChange,
     onSave,
     title,
+    serverErrors,
+    onLoading,
     defaultValues = {
         nip: '',
         name: '',
@@ -57,15 +63,26 @@ export function LecturerDialog({
         defaultValues,
     });
 
-    const handleSubmit = (data: LecturerFormValues) => {
-        // If we're editing, preserve the ID
-        if (defaultValues.id) {
-            onSave({ ...data, id: defaultValues.id });
-        } else {
-            onSave(data);
-        }
+    useEffect(() => {
+        if (open) form.reset(defaultValues);
+    }, [open]);
+
+    useEffect(() => {
+        serverErrors?.forEach(e => {
+            if (e.path && form.getFieldState(e.path as keyof LecturerFormValues).invalid === false) {
+                form.setError(e.path as keyof LecturerFormValues, {
+                    type: "server",
+                    message: e.msg
+                })
+            }
+        })
+    }, [serverErrors])
+
+    const handleSubmit = form.handleSubmit(async data => {
+        await onSave(defaultValues.id ? { ...data, id: defaultValues.id } : data)
         form.reset();
-    };
+        onOpenChange(false)
+    })
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -78,7 +95,7 @@ export function LecturerDialog({
                 </DialogHeader>
 
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4 py-2">
+                    <form onSubmit={handleSubmit} className="space-y-4 py-2">
                         <FormField
                             control={form.control}
                             name="nip"
@@ -86,7 +103,7 @@ export function LecturerDialog({
                                 <FormItem>
                                     <FormLabel>NIP</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="e.g., 198001" {...field} />
+                                        <Input readOnly={title === "Edit Lecturer"} placeholder="e.g., 198001" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -132,7 +149,7 @@ export function LecturerDialog({
                             >
                                 Cancel
                             </Button>
-                            <Button type="submit">Save</Button>
+                            <Button disabled={onLoading} type="submit">Save {onLoading && <LoaderCircle className='animate-spin' />} </Button>
                         </DialogFooter>
                     </form>
                 </Form>

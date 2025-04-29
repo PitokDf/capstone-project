@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -14,6 +14,10 @@ import {
 import { Plus, Pencil, Trash2, Search } from "lucide-react";
 import { LecturerDialog } from '@/components/features/admin/lectures/LectureDialog';
 import { DeleteConfirmDialog } from '@/components/ui/delete-confirm-dialog';
+import { LectureTable } from '@/components/features/admin/lectures/LectureTable';
+import { AddLecture } from '@/components/features/admin/lectures/AddLecture';
+import { EditLecturee } from '@/components/features/admin/lectures/EditLecture';
+import { DeleteLecturer } from '@/components/features/admin/lectures/DeleteLecture';
 
 interface Lecturer {
     id: number;
@@ -35,45 +39,11 @@ const initialLecturers: Lecturer[] = [
 ];
 
 export default function LecturersPage() {
-    const [lecturers, setLecturers] = useState<Lecturer[]>(initialLecturers);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [currentLecturer, setCurrentLecturer] = useState<Lecturer | null>(null);
 
-    const filteredLecturers = lecturers.filter(lecturer =>
-        lecturer.nip.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        lecturer.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    const handleAddLecturer = (lecturer: Omit<Lecturer, 'id'>) => {
-        const newLecturer = {
-            ...lecturer,
-            id: Math.max(0, ...lecturers.map(l => l.id)) + 1
-        };
-        setLecturers([...lecturers, newLecturer]);
-        setIsAddDialogOpen(false);
-    };
-
-    const handleEditLecturer = (data: { nip: string; name: string; preference: string; }) => {
-        if (currentLecturer) {
-            const updatedLecturer = { ...currentLecturer, ...data };
-            setLecturers(lecturers.map(lecturer =>
-                lecturer.id === updatedLecturer.id ? updatedLecturer : lecturer
-            ));
-            setIsEditDialogOpen(false);
-            setCurrentLecturer(null);
-        }
-    };
-
-    const handleDeleteLecturer = () => {
-        if (currentLecturer) {
-            setLecturers(lecturers.filter(lecturer => lecturer.id !== currentLecturer.id));
-            setIsDeleteDialogOpen(false);
-            setCurrentLecturer(null);
-        }
-    };
+    useEffect(() => { document.title = "Lectures - Admin" }, [])
 
     const openEditDialog = (lecturer: Lecturer) => {
         setCurrentLecturer(lecturer);
@@ -89,102 +59,31 @@ export default function LecturersPage() {
         <div>
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-3xl font-bold tracking-tight">Lecturers</h1>
-                <Button onClick={() => setIsAddDialogOpen(true)}>
-                    <Plus className="mr-2 h-4 w-4" /> Add Lecturer
-                </Button>
+                <AddLecture />
             </div>
 
-            <div className="flex items-center mb-6">
-                <div className="relative flex-1 max-w-sm">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                    <Input
-                        type="search"
-                        placeholder="Search lecturers..."
-                        className="pl-8"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
-            </div>
-
-            <div className="bordeexport default function LecturePage() {
-    return (
-        <h1>Lecture</h1>
-    )
-}r rounded-md">
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>NIP</TableHead>
-                            <TableHead>Name</TableHead>
-                            <TableHead>Preference</TableHead>
-                            <TableHead className="text-right">Actions</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {filteredLecturers.length === 0 ? (
-                            <TableRow>
-                                <TableCell colSpan={4} className="text-center py-6 text-muted-foreground">
-                                    No lecturers found.
-                                </TableCell>
-                            </TableRow>
-                        ) : (
-                            filteredLecturers.map((lecturer) => (
-                                <TableRow key={lecturer.id}>
-                                    <TableCell className="font-medium">{lecturer.nip}</TableCell>
-                                    <TableCell>{lecturer.name}</TableCell>
-                                    <TableCell>{lecturer.preference}</TableCell>
-                                    <TableCell className="text-right">
-                                        <div className="flex justify-end gap-2">
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                onClick={() => openEditDialog(lecturer)}
-                                            >
-                                                <Pencil className="h-4 w-4" />
-                                                <span className="sr-only">Edit</span>
-                                            </Button>
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                onClick={() => openDeleteDialog(lecturer)}
-                                            >
-                                                <Trash2 className="h-4 w-4" />
-                                                <span className="sr-only">Delete</span>
-                                            </Button>
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
-                            ))
-                        )}
-                    </TableBody>
-                </Table>
-            </div>
-
-            <LecturerDialog
-                open={isAddDialogOpen}
-                onOpenChange={setIsAddDialogOpen}
-                onSave={handleAddLecturer}
-                title="Add Lecturer"
-            />
+            <LectureTable
+                data={initialLecturers}
+                isLoading={false}
+                onDelete={openDeleteDialog}
+                onEdit={openEditDialog} />
 
             {currentLecturer && (
-                <LecturerDialog
-                    open={isEditDialogOpen}
+                <EditLecturee
+                    lecturer={currentLecturer}
                     onOpenChange={setIsEditDialogOpen}
-                    onSave={handleEditLecturer}
-                    title="Edit Lecturer"
-                    defaultValues={currentLecturer}
+                    open={isEditDialogOpen}
                 />
             )}
 
-            <DeleteConfirmDialog
-                open={isDeleteDialogOpen}
-                onOpenChange={setIsDeleteDialogOpen}
-                onConfirm={handleDeleteLecturer}
-                title="Delete Lecturer"
-                description={`Are you sure you want to delete ${currentLecturer?.name}? This action cannot be undone.`}
-            />
+            {currentLecturer && (
+                <DeleteLecturer
+                    lecturer={currentLecturer}
+                    onOpenChange={setIsDeleteDialogOpen}
+                    open={isDeleteDialogOpen}
+                />
+            )}
+
         </div>
     );
 }

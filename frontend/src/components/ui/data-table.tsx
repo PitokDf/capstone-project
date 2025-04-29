@@ -27,7 +27,6 @@ interface DataTableProps<T> {
     }[];
     isLoading: boolean;
     pageSize?: number;
-    totalItems: number;
     emptyMessage?: string;
 }
 
@@ -50,7 +49,7 @@ export function DataTable<T>({
     const [filter, setFilter] = useState<keyof T | "__ALL__">("__ALL__");
     const [currentPage, setCurrentPage] = useState(1);
 
-    const filteredData = data.filter((item: any) => {
+    const filteredData = data?.filter((item: any) => {
         if (searchTerm && filter) {
             if (filter === "__ALL__") {
                 return Object.values(item).some((value: any) => {
@@ -77,8 +76,8 @@ export function DataTable<T>({
         return true;
     })
 
-    const totalPages = Math.ceil(filteredData.length / pageSize);
-    const totalItems = filteredData.length;
+    const totalPages = Math.ceil(filteredData?.length / pageSize);
+    const totalItems = filteredData?.length;
 
     return (
         <>
@@ -126,7 +125,7 @@ export function DataTable<T>({
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {filteredData.length === 0 ? (
+                            {filteredData?.length === 0 ? (
                                 <TableRow>
                                     <TableCell
                                         colSpan={columns.length}
@@ -136,7 +135,7 @@ export function DataTable<T>({
                                     </TableCell>
                                 </TableRow>
                             ) : (
-                                filteredData.slice((currentPage - 1) * pageSize, currentPage * pageSize).map((item, rowIndex) => (
+                                filteredData?.slice((currentPage - 1) * pageSize, currentPage * pageSize).map((item, rowIndex) => (
                                     <TableRow key={rowIndex}>
                                         {columns.map((column, colIndex) => (
                                             <TableCell key={colIndex}>

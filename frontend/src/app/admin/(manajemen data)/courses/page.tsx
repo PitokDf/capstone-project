@@ -5,6 +5,7 @@ import { CourseDialog } from "@/components/features/admin/courses/course-dialog"
 import { CoursesTable } from "@/components/features/admin/courses/CoursesTable"
 import { DeleteCourse } from "@/components/features/admin/courses/DeleteCourse"
 import { EditCourse } from "@/components/features/admin/courses/EditCourse"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { getCourses } from "@/lib/api/course"
 import { Course } from "@/types/course"
 import { useQuery } from "@tanstack/react-query"
@@ -34,7 +35,12 @@ export default function CoursesPage() {
 
     return (
         <div>
-            {isError && (<p>{error.message} </p>)}
+            {isError && (
+                <Alert className="bg-red-300 dark:bg-red-700 mb-2">
+                    <AlertTitle>Information</AlertTitle>
+                    <AlertDescription>{error?.message}</AlertDescription>
+                </Alert>
+            )}
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-3xl font-bold tracking-tight">Courses</h1>
                 <AddCourse />

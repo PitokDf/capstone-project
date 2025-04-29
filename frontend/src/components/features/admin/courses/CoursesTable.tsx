@@ -51,7 +51,6 @@ export const CoursesTable = ({
                 { label: "Duration", value: "duration" }
             ]}
             pageSize={pageSize}
-            totalItems={data && data.length || 10}
             emptyMessage="No courses found."
         />
     );

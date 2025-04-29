@@ -2,7 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken";
 
 export const jwtCheckToken = (req: Request, res: Response, next: NextFunction) => {
-    const token = req.headers.authorization?.split(" ")[1];
+    const token = req.cookies.token;
+
     if (!token) return res.status(401).json({ messagge: "Token dibutuhkan." });
 
     const JWT_SECRET = process.env.JWT_SECREET || "123456";

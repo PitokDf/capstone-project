@@ -43,8 +43,6 @@ export const createCourseService = async (code: string, name: string, sks: numbe
 }
 
 export const updateCourseService = async (id: number, code: string, name: string, sks: number, duration: number) => {
-    await getCourseByCodeService(code);
-
     const updatedCourse = await prisma.course.update({
         where: { id },
         data: { code, name, sks, duration }

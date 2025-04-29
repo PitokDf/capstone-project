@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 export function DeleteCourse({ course, open, onOpenChange }: { course: Course, open: boolean, onOpenChange: (open: boolean) => void }) {
     const qc = useQueryClient();
-    const { mutateAsync: mutateDeleteCourse } = useMutation({
+    const { mutateAsync: mutateDeleteCourse, isPending } = useMutation({
         mutationFn: async () => deleteCourse(course.id),
         onSuccess: () => {
             qc.invalidateQueries({ queryKey: ['courses'] })
@@ -33,6 +33,7 @@ export function DeleteCourse({ course, open, onOpenChange }: { course: Course, o
             onOpenChange={onOpenChange}
             onConfirm={handleDelete}
             title="Delete Course"
+            onLoading={isPending}
             description={`Are you sure you want to delete ${course?.name}? This action cannot be undone.`}
         />
     )

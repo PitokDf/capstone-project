@@ -19,7 +19,7 @@ export function EditCourse({
     const qc = useQueryClient();
     const [serverErrors, setServerErrors] = useState<{ path: string; msg: string }[]>([]);
 
-    const { mutateAsync: mutateUpdateCourse } = useMutation({
+    const { mutateAsync: mutateUpdateCourse, isPending } = useMutation({
         mutationFn: async (data: any) => {
             await updateCourse(data);
         },
@@ -61,6 +61,7 @@ export function EditCourse({
             onSave={handleEditCourse}
             title="Edit Course"
             defaultValues={course}
+            onLoading={isPending}
             serverErrors={serverErrors}
         />
     )

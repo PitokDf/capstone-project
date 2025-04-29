@@ -13,6 +13,8 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
     (config) => {
         const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+        console.log(`Token: ${token}`);
+
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
@@ -31,14 +33,12 @@ axiosInstance.interceptors.response.use(
         if (error.response) {
             // The request was made and the server responded with a status code
             console.error("Response error:", error.response.data);
+            return Promise.reject(error);
         } else if (error.request) {
-            // The request was made but no response was received
-            console.error("Request error:", error.request);
+            return Promise.reject(error);
         } else {
-            // Something happened in setting up the request that triggered an Error
-            console.error("Error:", error.message);
+            return Promise.reject(error);
         }
-        return Promise.reject(error);
     }
 );
 

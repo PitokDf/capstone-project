@@ -8,7 +8,6 @@ export async function getCourses() {
 
 export async function addCourse(course: Omit<Course, 'id'>) {
     const res = await axiosInstance.post('/course', course)
-
     return res.data.data
 }
 
