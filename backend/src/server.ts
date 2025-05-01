@@ -7,6 +7,7 @@ import cors from "cors"
 import courseRouter from "./routes/course.routes";
 import morgan from "morgan"
 import cookieParser from "cookie-parser";
+import timeSlotRouter from "./routes/timeSlot.routes";
 
 dotenv.config() // agar .env bisa terbaca
 
@@ -20,13 +21,14 @@ app.use(cors({
 }))
 app.use(cookieParser()) // agar cookie bisa terbaca
 app.use(express.json()) // parse request json agar dapat diproses
-app.use(morgan('dev'))
+app.use(morgan('dev')) // menampilkan log request url
 
 // routers
 app.use("/auth", authRoute);
 app.use("/lecture", lectureRoute);
 app.use("/room", roomRouter);
 app.use("/course", courseRouter);
+app.use("/timeslot", timeSlotRouter);
 
 app.use("/", (req, res) => { return res.status(200).send("wellcome to API Penjadwalan mata kuliah") })
 
