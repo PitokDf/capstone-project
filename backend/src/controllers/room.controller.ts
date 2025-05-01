@@ -4,8 +4,8 @@ import { addRoomService, deleteRoomService, findRoomByIdService, getAllRoomServi
 
 export const addRoom = async (req: Request, res: Response) => {
     try {
-        const { code, capacity, location } = req.body;
-        const newRoom = await addRoomService(capacity, code, location);
+        const { code, capacity, location, name } = req.body;
+        const newRoom = await addRoomService(capacity, code, location, name);
         return res.status(200).json({
             message: "Berhasil menambahkan ruangan baru.",
             data: newRoom
@@ -46,9 +46,9 @@ export const deleteRoom = async (req: Request, res: Response) => {
 
 export const updateRoom = async (req: Request, res: Response) => {
     try {
-        const { capacity, location } = req.body;
+        const { capacity, code, location, name } = req.body;
         const { id } = req.params;
-        const updatedRomm = await updateRoomService(Number(id), capacity, location);
+        const updatedRomm = await updateRoomService(Number(id), code, capacity, location, name);
         return res.status(200).json({
             message: "Berhasil memperbarui data ruangan.",
             data: updatedRomm

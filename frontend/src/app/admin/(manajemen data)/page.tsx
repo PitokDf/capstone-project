@@ -1,16 +1,14 @@
 'use client'
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useEffect } from "react";
+import { Overview } from "@/components/features/admin/dashboard/Overview";
+import { RecentSchedules } from "@/components/features/admin/dashboard/RecentSchedules";
+import { ResourceSummary } from "@/components/features/admin/dashboard/ResourceSummary";
 
 export default function DashboardPage() {
-    useEffect(() => { document.title = 'Dashboard - Admin' }, [])
     return (
-        <div >
+        <div>
             <div className="flex flex-col md:flex-row justify-between gap-4 mb-8">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
@@ -19,61 +17,75 @@ export default function DashboardPage() {
                     </p>
                 </div>
             </div>
-            <Tabs defaultValue="account" className="space-y-4">
-                <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger
-                        value="account"
-                        className="data-[state=active]:text-blue-600 data-[state=active]:border-b-2 data-[state=active]:border-blue-600
-                        dark:data-[state=active]:bg-blue-600 dark:data-[state=active]:text-white"
-                    >
-                        Account
-                    </TabsTrigger>
-                    <TabsTrigger value="password">Password</TabsTrigger>
+
+            <Tabs defaultValue="overview" className="space-y-4">
+                <TabsList>
+                    <TabsTrigger value="overview">Overview</TabsTrigger>
+                    <TabsTrigger value="analytics">Analytics</TabsTrigger>
                 </TabsList>
-                <TabsContent value="account">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Account</CardTitle>
-                            <CardDescription>
-                                Make changes to your account here. Click save when you're done.
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-2">
-                            <div className="space-y-1">
-                                <Label htmlFor="name">Name</Label>
-                                <Input id="name" defaultValue="Pedro Duarte" />
-                            </div>
-                            <div className="space-y-1">
-                                <Label htmlFor="username">Username</Label>
-                                <Input id="username" defaultValue="@peduarte" />
-                            </div>
-                        </CardContent>
-                        <CardFooter>
-                            <Button>Save changes</Button>
-                        </CardFooter>
-                    </Card>
+                <TabsContent value="overview" className="space-y-4">
+                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                        <ResourceSummary
+                            title="Total Courses"
+                            value="24"
+                            description="+4 from last semester"
+                            trend="increase"
+                        />
+                        <ResourceSummary
+                            title="Active Lecturers"
+                            value="18"
+                            description="2 on sabbatical"
+                            trend="neutral"
+                        />
+                        <ResourceSummary
+                            title="Available Rooms"
+                            value="32"
+                            description="65% utilization rate"
+                            trend="decrease"
+                        />
+                        <ResourceSummary
+                            title="Scheduled Classes"
+                            value="128"
+                            description="12 pending allocation"
+                            trend="increase"
+                        />
+                    </div>
+                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+                        <Card className="col-span-7 lg:col-span-4">
+                            <CardHeader>
+                                <CardTitle>Schedule Overview</CardTitle>
+                                <CardDescription>
+                                    Schedule distribution across the week
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent className="pl-2">
+                                <Overview />
+                            </CardContent>
+                        </Card>
+                        <Card className="col-span-7 lg:col-span-3">
+                            <CardHeader>
+                                <CardTitle>Recent Updates</CardTitle>
+                                <CardDescription>
+                                    Recently modified schedules
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <RecentSchedules />
+                            </CardContent>
+                        </Card>
+                    </div>
                 </TabsContent>
-                <TabsContent value="password">
+                <TabsContent value="analytics" className="space-y-4">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Password</CardTitle>
+                            <CardTitle>Resource Utilization</CardTitle>
                             <CardDescription>
-                                Change your password here. After saving, you'll be logged out.
+                                Detailed analytics of resource usage
                             </CardDescription>
                         </CardHeader>
-                        <CardContent className="space-y-2">
-                            <div className="space-y-1">
-                                <Label htmlFor="current">Current password</Label>
-                                <Input id="current" type="password" />
-                            </div>
-                            <div className="space-y-1">
-                                <Label htmlFor="new">New password</Label>
-                                <Input id="new" type="password" />
-                            </div>
+                        <CardContent className="pl-2">
+                            <p className="text-sm text-muted-foreground">Analytics content coming soon</p>
                         </CardContent>
-                        <CardFooter>
-                            <Button>Save password</Button>
-                        </CardFooter>
                     </Card>
                 </TabsContent>
             </Tabs>

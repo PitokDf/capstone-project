@@ -13,7 +13,7 @@ interface LectureTableProps {
 }
 
 export function LectureTable({
-    data, isLoading, onDelete, onEdit
+    onDelete, onEdit
 }: LectureTableProps) {
     const { data: lectures, isPending } = useQuery({
         queryKey: ["lectures"],
@@ -45,6 +45,7 @@ export function LectureTable({
             filterBy={[
                 { label: "Nama", value: "name" },
                 { label: "NIP", value: "nip" },
+                { label: "Preferensi", value: "preference" }
             ]}
         />
     )

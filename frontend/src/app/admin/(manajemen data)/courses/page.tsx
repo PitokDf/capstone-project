@@ -36,9 +36,9 @@ export default function CoursesPage() {
     return (
         <div>
             {isError && (
-                <Alert className="bg-red-300 dark:bg-red-700 mb-2">
+                <Alert className="bg-red-700 dark:bg-red-700/50 mb-2">
                     <AlertTitle>Information</AlertTitle>
-                    <AlertDescription>{error?.message}</AlertDescription>
+                    <AlertDescription className="text-white">{error?.message}</AlertDescription>
                 </Alert>
             )}
             <div className="flex justify-between items-center mb-6">

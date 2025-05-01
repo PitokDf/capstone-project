@@ -19,7 +19,7 @@ export default function ThemeToggle() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
                 <DropdownMenuItem onClick={() => setTheme("light")}>
-                    Ligh
+                    Light
                 </DropdownMenuItem >
                 <DropdownMenuItem onClick={() => setTheme("dark")}>
                     Dark

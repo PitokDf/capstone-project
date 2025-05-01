@@ -13,8 +13,9 @@ import {
 import LogOutButton from "../features/auth/LogoutButton"
 import ThemeToggle from "../ThemeToggle"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
+import { useState, useTransition } from "react"
 
 const items = [
     { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
@@ -28,15 +29,21 @@ const items = [
 
 export function AppSidebar() {
     const pathname = usePathname()
-
+    const router = useRouter()
+    const [loadingPath, setLoadingPath] = useState<string | null>(null)
+    const [isPending, startTransition] = useTransition()
     const NavItem = ({ href, icon, label }: { href: string, icon: React.ReactNode, label: string }) => {
         const isActive = pathname === href;
+        const isLoading = isPending && loadingPath === href
 
         return (
-            <Link
-                href={href}
+            <button
+                onClick={() => {
+                    setLoadingPath(href)
+                    startTransition(() => router.push(href))
+                }}
                 className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all",
+                    "flex w-full items-center gap-3 rounded-lg px-3 py-2 transition-all",
                     isActive
                         ? "bg-primary text-primary-foreground"
                         : "hover:bg-primary/10 text-foreground"
@@ -44,7 +51,8 @@ export function AppSidebar() {
             >
                 {icon}
                 <span>{label}</span>
-            </Link>
+                {isLoading && <Spinner />}
+            </button>
         )
     }
 
@@ -84,3 +92,8 @@ export function AppSidebar() {
         </Sidebar>
     )
 }
+
+
+const Spinner = () => (
+    <div className="ml-auto h-4 w-4 border-2 border-t-transparent border-blue-500 rounded-full animate-spin" />
+)

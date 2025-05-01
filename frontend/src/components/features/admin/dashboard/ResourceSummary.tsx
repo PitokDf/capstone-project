@@ -8,7 +8,7 @@ interface ResourecSummaryProps {
     trend?: 'increase' | 'decrease' | 'neutral';
 }
 
-export function ResourecSummary({ title, value, description, trend = "neutral" }: ResourecSummaryProps) {
+export function ResourceSummary({ title, value, description, trend = "neutral" }: ResourecSummaryProps) {
     return (
         <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

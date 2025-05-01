@@ -54,7 +54,7 @@ export default function LoginPage() {
     }
 
     return (
-        <div className={cn("min-h-screen flex items-center justify-center", "dark:bg-gray-900 bg-gray-100")}>
+        <div className={cn("min-h-screen flex items-center justify-center", "bg-gradient-to-b from-background to-muted")}>
             <Card className="w-full max-w-md shadow-2xl">
                 <CardContent className="p-8 space-y-6">
                     <div className="flex justify-between items-center">

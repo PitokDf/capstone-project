@@ -24,60 +24,59 @@ import {
 import { Input } from "@/components/ui/input";
 import { LoaderCircle } from 'lucide-react';
 
-const courseSchema = z.object({
+// Schema for room form validation
+const roomSchema = z.object({
     code: z.string().min(2, "Code must be at least 2 characters").max(10, "Code cannot exceed 10 characters"),
-    name: z.string().min(3, "Name must be at least 3 characters").max(125, "Name cannot exceed 125 characters"),
-    sks: z.coerce.number().int().min(1, "SKS must be at least 1").max(6, "SKS cannot exceed 6"),
-    duration: z.coerce.number().int().min(30, "Duration must be at least 30 minutes").max(240, "Duration cannot exceed 240 minutes"),
+    name: z.string().min(3, "Name must be at least 3 characters"),
+    capacity: z.string().min(1, "Capacity is required"),
+    location: z.string().min(3, "Location must be at least 3 characters"),
 });
 
-export type CourseFormValues = z.infer<typeof courseSchema> & { id?: number };
+export type RoomFormValues = z.infer<typeof roomSchema> & { id?: number };
 interface ServerError { path: string; msg: string }
-
-interface CourseDialogProps {
+interface RoomDialogProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    onSave: (data: CourseFormValues) => Promise<void>;
+    onSave: (data: RoomFormValues) => Promise<void>;
     title: string;
     onLoading?: boolean;
     serverErrors?: ServerError[];
-    defaultValues?: CourseFormValues & { id?: number };
+    defaultValues?: RoomFormValues & { id?: number };
 }
 
-export function CourseDialog({
+export function RoomDialog({
     open,
     onOpenChange,
     onSave,
     title,
-    serverErrors,
     onLoading,
+    serverErrors,
     defaultValues = {
         code: '',
         name: '',
-        sks: 3,
-        duration: 120
+        capacity: '',
+        location: '',
     }
-}: CourseDialogProps) {
-    const form = useForm<CourseFormValues>({
-        resolver: zodResolver(courseSchema),
+}: RoomDialogProps) {
+    const form = useForm<RoomFormValues>({
+        resolver: zodResolver(roomSchema),
         defaultValues,
     });
 
     useEffect(() => {
-        if (open && title === "Edit Course") form.reset(defaultValues);
+        if (open && title === "Edit Room") form.reset(defaultValues);
     }, [open]);
 
     useEffect(() => {
         serverErrors?.forEach(e => {
-            if (e.path && form.getFieldState(e.path as keyof CourseFormValues).invalid === false) {
-                form.setError(e.path as keyof CourseFormValues, {
+            if (e.path && form.getFieldState(e.path as keyof RoomFormValues).invalid === false) {
+                form.setError(e.path as keyof RoomFormValues, {
                     type: "server",
                     message: e.msg
                 })
             }
         })
     }, [serverErrors])
-
 
     const handleSubmit = form.handleSubmit(async data => {
         await onSave(defaultValues.id ? { ...data, id: defaultValues.id } : data)
@@ -91,7 +90,7 @@ export function CourseDialog({
                 <DialogHeader>
                     <DialogTitle>{title}</DialogTitle>
                     <DialogDescription>
-                        Fill in the details for the course below.
+                        Fill in the details for the room below.
                     </DialogDescription>
                 </DialogHeader>
 
@@ -102,9 +101,9 @@ export function CourseDialog({
                             name="code"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Course Code</FormLabel>
+                                    <FormLabel>Room Code</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="e.g., CS101" {...field} />
+                                        <Input placeholder="e.g., R101" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -116,44 +115,42 @@ export function CourseDialog({
                             name="name"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Course Name</FormLabel>
+                                    <FormLabel>Room Name</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="e.g., Introduction to Computer Science" {...field} />
+                                        <Input placeholder="e.g., Lecture Hall 1" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
 
-                        <div className="grid grid-cols-2 gap-4">
-                            <FormField
-                                control={form.control}
-                                name="sks"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>SKS</FormLabel>
-                                        <FormControl>
-                                            <Input type="number" placeholder="3" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                        <FormField
+                            control={form.control}
+                            name="capacity"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Capacity</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="e.g., 120" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                            <FormField
-                                control={form.control}
-                                name="duration"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Duration (minutes)</FormLabel>
-                                        <FormControl>
-                                            <Input type="number" placeholder="120" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
+                        <FormField
+                            control={form.control}
+                            name="location"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Location</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="e.g., Building A, Floor 1" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
                         <DialogFooter>
                             <Button
