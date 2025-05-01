@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -43,6 +43,8 @@ export default function RoomsPage() {
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState(false);
     const [currentRoom, setCurrentRoom] = useState<Room | null>(null);
+
+    useEffect(() => { document.title = "Rooms - Admin" }, [])
 
     const handleDelete = (room: Room) => {
         setCurrentRoom(room)
