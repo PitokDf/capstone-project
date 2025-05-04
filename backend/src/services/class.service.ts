@@ -13,3 +13,17 @@ export const getAllClassesService = async () => {
 
     return classes
 }
+
+export const deleteClassService = async (id: number) => {
+    const deletedClass = await prisma.class.delete({ where: { id } })
+    return deletedClass
+}
+
+export const updateClassService = async (id: number, name: string, code: string) => {
+    const updatedClass = await prisma.class.update({
+        where: { id },
+        data: { name, code }
+    })
+
+    return updatedClass
+}

@@ -13,7 +13,7 @@ const classSchema = z.object({
     name: z.string().min(3, "Name must be at least 3 characters")
 })
 
-type ClassFormValues = z.infer<typeof classSchema> & { id?: number }
+export type ClassFormValues = z.infer<typeof classSchema> & { id?: number }
 interface ServerError { path: string; msg: string }
 
 interface ClassDialogProps {
