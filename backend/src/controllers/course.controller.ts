@@ -7,7 +7,7 @@ export const createCourse = async (req: Request, res: Response) => {
         const { code, name, sks, duration } = req.body;
         const newCourse = await createCourseService(code, name, sks, duration);
 
-        return res.status(200).json({
+        return res.status(201).json({
             message: "Course created successfully",
             data: newCourse
         })

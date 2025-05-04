@@ -47,7 +47,7 @@ export const addLecture = async (req: Request, res: Response) => {
         const { nip, name, preference } = req.body;
         const newLecture = await addLectureService(nip, name, preference)
 
-        return res.status(200).json({
+        return res.status(201).json({
             message: "Berhasil menambahkan dosen baru.",
             data: newLecture
         })

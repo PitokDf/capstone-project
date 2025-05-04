@@ -7,7 +7,7 @@ import Header from '@/components/layouts/Header';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted">
+    <div className="min-h-screen bg-gradient-to-br from-background to-muted">
       <Header />
       <main className="py-16 max-w-6xl mx-auto px-4">
         <div className="flex flex-col items-center text-center mb-16">

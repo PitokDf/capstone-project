@@ -6,7 +6,7 @@ export const addRoom = async (req: Request, res: Response) => {
     try {
         const { code, capacity, location, name } = req.body;
         const newRoom = await addRoomService(capacity, code, location, name);
-        return res.status(200).json({
+        return res.status(201).json({
             message: "Berhasil menambahkan ruangan baru.",
             data: newRoom
         })

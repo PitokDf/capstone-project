@@ -18,7 +18,7 @@ export const addLectureTimePrefrence = async (req: Request, res: Response) => {
             updatedAt: Date;
         }[]
         const newLectureTime = await addLectureTimePrefrenceService(Number(lectureID), data)
-        return res.status(200).json({
+        return res.status(201).json({
             message: "Berhasil memperbarui prefrenesi waktu dosen",
             data: newLectureTime[0].count
         })
