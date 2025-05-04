@@ -1,3 +1,5 @@
+import { DeleteButton } from "@/components/DeleteButton";
+import { EditButton } from "@/components/EditButton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
@@ -49,12 +51,8 @@ export function LectureTable({
                     header: "Actions", accessorKey: "id",
                     cell: (lecture: Lecture) => (
                         <div className="flex justify-end gap-2">
-                            <Button variant={"ghost"} size={"icon"} onClick={() => onEdit(lecture)}>
-                                <Pencil className="h-4 w-4" />
-                            </Button>
-                            <Button variant={"ghost"} size={"icon"} onClick={() => onDelete(lecture)}>
-                                <Trash2 className="h-4 w-4" />
-                            </Button>
+                            <EditButton onEdit={() => onEdit(lecture)} />
+                            <DeleteButton onDelete={() => onDelete(lecture)} />
                             <Button variant="outline" size="sm" onClick={() => onAddPrefrence(lecture)}>
                                 <Clock className="mr-2 h-4 w-4" />
                                 Preferences

@@ -1,3 +1,5 @@
+import { DeleteButton } from "@/components/DeleteButton";
+import { EditButton } from "@/components/EditButton";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { getTimeslots } from "@/lib/api/timeslot";
@@ -48,22 +50,8 @@ export function TimeSlotTable({ onEdit, onDelete }: TimeSlotTableProps) {
                     cell: (item) => {
                         return (
                             <div className="flex justify-end gap-2">
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    onClick={() => onEdit(item)}
-                                >
-                                    <Pencil className="h-4 w-4" />
-                                    <span className="sr-only">Edit</span>
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    onClick={() => onDelete(item)}
-                                >
-                                    <Trash2 className="h-4 w-4" />
-                                    <span className="sr-only">Delete</span>
-                                </Button>
+                                <EditButton onEdit={() => onEdit(item)} />
+                                <DeleteButton onDelete={() => onDelete(item)} />
                             </div>)
                     }
                 },

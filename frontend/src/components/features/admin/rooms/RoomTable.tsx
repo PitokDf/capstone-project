@@ -1,3 +1,5 @@
+import { DeleteButton } from "@/components/DeleteButton";
+import { EditButton } from "@/components/EditButton";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { getRooms } from "@/lib/api/room";
@@ -29,12 +31,8 @@ export function RoomTable({
                     header: "Actions", accessorKey: "id",
                     cell: (data: Room) => (
                         <div className="flex justify-end gap-2">
-                            <Button variant={"ghost"} size={"icon"} onClick={() => onEdit(data)}>
-                                <Pencil className="h-4 w-4" />
-                            </Button>
-                            <Button variant={"ghost"} size={"icon"} onClick={() => onDelete(data)}>
-                                <Trash2 className="h-4 w-4" />
-                            </Button>
+                            <EditButton onEdit={() => onEdit(data)} />
+                            <DeleteButton onDelete={() => onDelete(data)} />
                         </div>
                     )
                 }

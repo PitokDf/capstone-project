@@ -4,6 +4,8 @@ import { DataTable } from "@/components/ui/data-table";
 import { Button } from "@/components/ui/button";
 import { Pencil, Trash2 } from "lucide-react";
 import { Course } from "@/types/course";
+import { EditButton } from "@/components/EditButton";
+import { DeleteButton } from "@/components/DeleteButton";
 
 interface Props {
     data: Course[];
@@ -34,12 +36,8 @@ export const CoursesTable = ({
                     accessorKey: "id",
                     cell: (course: Course) => (
                         <div className="flex justify-end gap-2">
-                            <Button variant="ghost" size="icon" onClick={() => onEdit(course)}>
-                                <Pencil className="h-4 w-4" />
-                            </Button>
-                            <Button variant="ghost" size="icon" onClick={() => onDelete(course)}>
-                                <Trash2 className="h-4 w-4" />
-                            </Button>
+                            <EditButton onEdit={() => onEdit(course)} />
+                            <DeleteButton onDelete={() => onDelete(course)} />
                         </div>
                     )
                 }
