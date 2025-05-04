@@ -20,7 +20,7 @@ export default function AdminLayout({
             <div className='flex-1 overflow-auto'>
 
                 <AdminAppBar />
-                <main className="p-4 md:p-6 max-w-7xl mx-auto">
+                <main className=" md:p-6 max-w-7xl mx-auto">
                     <div className="flex-1 p-4">
                         <AppProgressBar
                             color='#fff'

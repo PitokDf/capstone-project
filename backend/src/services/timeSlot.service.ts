@@ -2,7 +2,7 @@ import { prisma } from "../config/prisma"
 import { AppError } from "../utils/errorHandler";
 
 export const getAllTimeSlotService = async () => {
-    const timeSlots = await prisma.timeSlot.findMany();
+    const timeSlots = await prisma.timeSlot.findMany({ orderBy: { day: "asc" }, include: { Schedule: true } });
 
     return timeSlots;
 }

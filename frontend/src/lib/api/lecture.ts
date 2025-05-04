@@ -6,7 +6,7 @@ export const addLecturer = async (lecturer: Omit<Lecture, "id">) => {
     return res.data.data
 }
 
-export const getLectures = async () => {
+export const getLectures = async (): Promise<Lecture[]> => {
     const res = await axiosInstance.get("/lecture")
     return res.data.data
 }
@@ -18,5 +18,11 @@ export const updateLecture = async (lecture: Lecture) => {
 
 export const deleteLecturer = async (id: number) => {
     const res = await axiosInstance.delete(`/lecture/${id}`)
+    return res.data.data
+}
+
+export const addOrDeleteLecturePrefrenceTime = async (id: number, preferenceIds: number[]) => {
+    const res = await axiosInstance.post(`/lecture/${id}/prefrence`, { preferenceIds })
+
     return res.data.data
 }

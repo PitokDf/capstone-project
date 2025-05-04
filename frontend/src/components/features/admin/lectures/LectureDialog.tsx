@@ -22,8 +22,8 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { LoaderCircle } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 // Schema for lecturer form validation
 const lecturerSchema = z.object({
@@ -64,7 +64,7 @@ export function LecturerDialog({
     });
 
     useEffect(() => {
-        if (open) form.reset(defaultValues);
+        if (open && title === "Edit Lecturer") form.reset(defaultValues);
     }, [open]);
 
     useEffect(() => {
@@ -131,10 +131,21 @@ export function LecturerDialog({
                                 <FormItem>
                                     <FormLabel>Teaching Preference</FormLabel>
                                     <FormControl>
-                                        <Textarea
-                                            placeholder="e.g., Morning classes only, No classes on Friday"
-                                            {...field}
-                                        />
+                                        <Select value={field.value} onValueChange={field.onChange}
+                                        >
+                                            <SelectTrigger id="preference" className="col-span-3">
+                                                <SelectValue placeholder="Select a preference" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="Morning">Morning</SelectItem>
+                                                <SelectItem value="Afternoon">Afternoon</SelectItem>
+                                                <SelectItem value="Monday">Monday</SelectItem>
+                                                <SelectItem value="Tuesday">Tuesday</SelectItem>
+                                                <SelectItem value="Wednesday">Wednesday</SelectItem>
+                                                <SelectItem value="Thursday">Thursday</SelectItem>
+                                                <SelectItem value="Friday">Friday</SelectItem>
+                                            </SelectContent>
+                                        </Select>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

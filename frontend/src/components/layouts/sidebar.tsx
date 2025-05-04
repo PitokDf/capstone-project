@@ -1,10 +1,12 @@
 'use client'
 
-import { Calendar, Home, Inbox, Search, Settings, User, LogOut, Bell, Star, ChevronDown, CalendarDays, LayoutDashboard, BookOpen, Users, MapPin, Clock } from "lucide-react"
+import { Home, Users, MapPin, Clock, ClipboardListIcon, GraduationCap, CalendarIcon } from "lucide-react"
 import {
     Sidebar,
     SidebarContent,
     SidebarFooter,
+    SidebarGroup,
+    SidebarGroupLabel,
     SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
@@ -12,18 +14,18 @@ import {
 } from "@/components/ui/sidebar"
 import LogOutButton from "../features/auth/LogoutButton"
 import ThemeToggle from "../ThemeToggle"
-import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { useState, useTransition } from "react"
 
 const items = [
-    { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
-    { title: "Courses", url: "/admin/courses", icon: BookOpen },
-    { title: "Lectures", url: "/admin/lectures", icon: Users },
+    { title: "Overview", url: "/admin", icon: Home },
+    { title: "Classes", url: "/admin/classes", icon: Users },
+    { title: "Courses", url: "/admin/courses", icon: ClipboardListIcon },
+    { title: "Lectures", url: "/admin/lectures", icon: GraduationCap },
     { title: "Rooms", url: "/admin/rooms", icon: MapPin },
     { title: "Time Slots", url: "/admin/timeslots", icon: Clock },
-    { title: "Schedules", url: "/admin/schedules", icon: CalendarDays },
+    { title: "Schedules", url: "/admin/schedules", icon: CalendarIcon },
 ]
 
 
@@ -61,25 +63,28 @@ export function AppSidebar() {
         <Sidebar variant="sidebar">
             <SidebarHeader className="p-4">
                 <div className="flex text-blue-500 items-center gap-2">
-                    <CalendarDays className="h-6 w-6 text-blue-500" />
-                    <span className="font-bold text-xl text-primary">UniScheduler</span>
+                    <GraduationCap className="h-6 w-6" />
+                    <span className="font-bold text-xl text-primary">University Scheduler</span>
                 </div>
             </SidebarHeader>
 
-            <SidebarContent className="p-4">
-                <SidebarMenu>
-                    {items.map((item) => (
-                        <SidebarMenuItem key={item.title}>
-                            <SidebarMenuButton asChild >
-                                <NavItem
-                                    href={item.url}
-                                    icon={<item.icon className="h-5 w-5" />}
-                                    label={item.title}
-                                />
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-                    ))}
-                </SidebarMenu>
+            <SidebarContent>
+                <SidebarGroup>
+                    <SidebarGroupLabel>Dashboard</SidebarGroupLabel>
+                    <SidebarMenu className="space-y-1">
+                        {items.map((item) => (
+                            <SidebarMenuItem key={item.title}>
+                                <SidebarMenuButton asChild >
+                                    <NavItem
+                                        href={item.url}
+                                        icon={<item.icon className="h-5 w-5" />}
+                                        label={item.title}
+                                    />
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        ))}
+                    </SidebarMenu>
+                </SidebarGroup>
             </SidebarContent>
 
             <SidebarFooter className="mt-auto p-4 border-t">

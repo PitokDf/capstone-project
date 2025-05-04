@@ -19,39 +19,48 @@ model User {
   username  String   @unique @db.VarChar(125)
   password  String
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Class {
-  id        Int        @id @default(autoincrement())
-  code      String     @unique
-  name      String?
-  schedules Schedule[]
+  id         Int        @id @default(autoincrement())
+  code       String     @unique
+  name       String?
+  createedAt DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  schedules  Schedule[]
 }
 
 model Course {
-  id       Int    @id @default(autoincrement())
-  code     String @unique
-  name     String @db.VarChar(125)
-  sks      Int
-  duration Int
+  id         Int      @id @default(autoincrement())
+  code       String   @unique
+  name       String   @db.VarChar(125)
+  sks        Int
+  duration   Int
+  createedAt DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   Schedules Schedule[]
 }
 
 model Lecture {
-  id         Int     @id @default(autoincrement())
-  nip        String  @unique
+  id         Int      @id @default(autoincrement())
+  nip        String   @unique
   name       String
   preference String?
+  createedAt DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   prefrredSlots LectureTimePrefrence[]
   Schedule      Schedule[]
 }
 
 model LectureTimePrefrence {
-  id         Int @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   lectureID  Int
   timeslotID Int
+  createedAt DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   lecture  Lecture  @relation(fields: [lectureID], references: [id], onDelete: Cascade)
   timeslot TimeSlot @relation(fields: [timeslotID], references: [id], onDelete: Cascade)
@@ -60,32 +69,38 @@ model LectureTimePrefrence {
 }
 
 model Room {
-  id       Int    @id @default(autoincrement())
-  code     String @unique
-  name     String @default("~")
-  capacity String
-  location String
+  id         Int      @id @default(autoincrement())
+  code       String   @unique
+  name       String   @default("~")
+  capacity   String
+  location   String
+  createedAt DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   Schedule Schedule[]
 }
 
 model TimeSlot {
-  id       Int      @id @default(autoincrement())
-  day      String
-  starTime DateTime
-  endTime  DateTime
+  id         Int      @id @default(autoincrement())
+  day        String
+  starTime   DateTime
+  endTime    DateTime
+  createedAt DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   lecturePrefrences LectureTimePrefrence[]
   Schedule          Schedule[]
 }
 
 model Schedule {
-  id         Int @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   classID    Int
   courseID   Int
   lectureID  Int
   roomID     Int
   timeSlotID Int
+  createedAt DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   class    Class    @relation(fields: [classID], references: [id], onDelete: Cascade)
   course   Course   @relation(fields: [courseID], references: [id], onDelete: Cascade)

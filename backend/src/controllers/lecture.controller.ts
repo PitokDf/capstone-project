@@ -8,7 +8,18 @@ export const getAllLecture = async (req: Request, res: Response) => {
 
         return res.status(200).json({
             message: "Berhasil mendapatkan data.",
-            data: lectures
+            data: lectures.map((lecture) => ({
+                name: lecture.name,
+                id: lecture.id,
+                nip: lecture.nip,
+                preference: lecture.preference || "-",
+                prefrredSlots: lecture.prefrredSlots.map(time => ({
+                    day: time.timeslot.day,
+                    timeslotID: time.timeslot.id,
+                    starTime: time.timeslot.starTime,
+                    endTime: time.timeslot.endTime
+                })) || [],
+            }))
         });
     } catch (error) {
         return handlerAnyError(error, res)

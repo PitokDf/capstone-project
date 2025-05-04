@@ -11,6 +11,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { format } from 'date-fns';
 import { Separator } from '@/components/ui/separator';
+import Header from '@/components/layouts/Header';
 
 interface Schedule {
     id: number;
@@ -196,24 +197,7 @@ export default function PublicSchedulePage() {
 
     return (
         <div className="min-h-screen bg-background">
-            <header className="border-b bg-card">
-                <div className="container max-w-7xl mx-auto px-4 py-4">
-                    <div className="flex justify-between items-center">
-                        <div className="flex items-center gap-2">
-                            <CalendarDays className="h-6 w-6 text-primary" />
-                            <h1 className="text-2xl font-bold">UniScheduler</h1>
-                        </div>
-                        <div className="flex items-center gap-4">
-                            <Button variant="ghost" size="sm" asChild>
-                                <Link href="/">Home</Link>
-                            </Button>
-                            <Button variant="secondary" size="sm" asChild>
-                                <Link href="/admin">Admin Portal</Link>
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </header>
+            <Header />
 
             <main className="container max-w-7xl mx-auto px-4 py-8">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">

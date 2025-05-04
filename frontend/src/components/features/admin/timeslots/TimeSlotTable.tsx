@@ -38,8 +38,9 @@ export function TimeSlotTable({ onEdit, onDelete }: TimeSlotTableProps) {
                     header: "Durasi (Jam)", accessorKey: "endTime",
                     cell: (item) => {
                         const durationMs = new Date(item.endTime).getTime() - new Date(item.starTime).getTime();
-                        const durationHours = durationMs / (1000 * 60 * 60)
-                        return (<p>{Math.floor(durationHours)}</p>)
+                        const durationHours = Math.floor(durationMs / (1000 * 60 * 60))
+                        const durationMinute = Math.floor(durationMs % (1000 * 60 * 60) / (1000 * 60))
+                        return (<p>{durationHours}h {durationMinute}m</p>)
                     }
                 },
                 {

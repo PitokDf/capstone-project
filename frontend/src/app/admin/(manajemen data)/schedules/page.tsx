@@ -182,61 +182,13 @@ export default function SchedulesPage() {
         setIsDeleteDialogOpen(true);
     };
 
-    // const handleGenerateSchedules = async () => {
-    //     try {
-    //         setIsGenerating(true);
-
-    //         // // In a real app, fetch this data from your API
-    //         // const generator = new ScheduleGenerator(
-    //         //     courses,
-    //         //     lecturers,
-    //         //     rooms,
-    //         //     timeSlots
-    //         // );
-
-    //         const newSchedules = generator.generate();
-
-    //         // Convert generated assignments to schedule format
-    //         const generatedSchedules = newSchedules.map((assignment, index) => ({
-    //             id: Math.max(...schedules.map(s => s.id)) + index + 1,
-    //             courseID: assignment.course.id,
-    //             courseName: assignment.course.name,
-    //             courseCode: assignment.course.code,
-    //             lectureID: assignment.lecture.id,
-    //             lectureName: assignment.lecture.name,
-    //             roomID: assignment.room.id,
-    //             roomName: assignment.room.name,
-    //             roomCode: assignment.room.code,
-    //             timeSlotID: assignment.timeSlot.id,
-    //             day: assignment.timeSlot.day,
-    //             startTime: assignment.timeSlot.starTime,
-    //             endTime: assignment.timeSlot.endTime,
-    //         }));
-
-    //         setSchedules(generatedSchedules);
-
-    //         toast({
-    //             title: "Success",
-    //             description: "New schedule generated successfully!",
-    //         });
-    //     } catch (error) {
-    //         toast({
-    //             title: "Error",
-    //             description: "Failed to generate schedule. Please try again.",
-    //             variant: "destructive",
-    //         });
-    //     } finally {
-    //         setIsGenerating(false);
-    //     }
-    // };
-
     const formatTime = (date: Date) => {
         return format(date, 'HH:mm');
     };
 
     return (
         <div>
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-6">
                 <h1 className="text-3xl font-bold tracking-tight">Schedules</h1>
                 <div className="flex gap-2">
                     <Button

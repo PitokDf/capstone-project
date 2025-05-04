@@ -2,8 +2,18 @@ import { prisma } from "../config/prisma"
 import { AppError } from "../utils/errorHandler"
 
 export const getAllLectureService = async () => {
-    const lectures = await prisma.lecture.findMany({ orderBy: { name: "asc" } })
-
+    const lectures = await prisma.lecture.findMany({
+        orderBy: { id: "desc" }, include: {
+            prefrredSlots:
+            {
+                select: {
+                    timeslot: {
+                        select: { id: true, day: true, starTime: true, endTime: true }
+                    }
+                },
+            }
+        }
+    })
     return lectures
 }
 

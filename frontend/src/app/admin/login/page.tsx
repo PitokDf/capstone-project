@@ -33,7 +33,8 @@ export default function LoginPage() {
                 </CardContent>
                 <CardFooter className="flex flex-col">
                     <p className="px-8 text-center text-sm text-muted-foreground">
-                        Manage system course schedule.
+                        Manage system course schedule. <br />
+                        Kembali ke  <a href="/" className="text-blue-500">halaman utama</a>
                     </p>
                 </CardFooter>
             </Card>
