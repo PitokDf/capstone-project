@@ -1,0 +1,92 @@
+@startuml
+hide circle
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+
+entity "User" {
+  +id : Int <<PK>>
+  email : String <<U>>
+  username : String <<U>>
+  password : String
+  createdAt : DateTime
+  updatedAt : DateTime
+}
+
+entity "Class" {
+  +id : Int <<PK>>
+  code : String <<U>>
+  name : String
+  createedAt : DateTime
+  updatedAt : DateTime
+}
+
+entity "Course" {
+  +id : Int <<PK>>
+  code : String <<U>>
+  name : String
+  sks : Int
+  duration : Int
+  createedAt : DateTime
+  updatedAt : DateTime
+}
+
+entity "Lecture" {
+  +id : Int <<PK>>
+  nip : String <<U>>
+  name : String
+  preference : String
+  createedAt : DateTime
+  updatedAt : DateTime
+}
+
+entity "LectureTimePrefrence" {
+  +id : Int <<PK>>
+  lectureID : Int
+  timeslotID : Int
+  createedAt : DateTime
+  updatedAt : DateTime
+  __[UNIQUE]__ (lectureID, timeslotID)
+}
+
+entity "Room" {
+  +id : Int <<PK>>
+  code : String <<U>>
+  name : String
+  capacity : String
+  location : String
+  createedAt : DateTime
+  updatedAt : DateTime
+}
+
+entity "TimeSlot" {
+  +id : Int <<PK>>
+  day : String
+  starTime : DateTime
+  endTime : DateTime
+  createedAt : DateTime
+  updatedAt : DateTime  
+}
+
+entity "Schedule" {
+    +id : Int <<PK>>
+    classID : Int
+    courseID : Int
+    lectureID : Int
+    roomID : Int
+    timeSlotID : Int
+    createedAt : DateTime
+    updatedAt : DateTime
+    __[UNIQUE]__ (classID, courseID, lectureID, roomID, timeSlotID)
+}
+
+' Relasi
+LectureTimePrefrence::lectureID --> Lecture::id
+LectureTimePrefrence::timeslotID --> TimeSlot::id
+
+Schedule::classID --> Class::id
+Schedule::courseID --> Course::id
+Schedule::lectureID --> Lecture::id
+Schedule::roomID --> Room::id
+Schedule::timeSlotID --> TimeSlot::id
+
+@enduml

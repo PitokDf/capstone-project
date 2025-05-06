@@ -37,10 +37,13 @@ model Course {
   name       String   @db.VarChar(125)
   sks        Int
   duration   Int
+  lectureID  Int
   createedAt DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  Schedules Schedule[]
+  lecture        Lecture         @relation(fields: [lectureID], references: [id], onDelete: Cascade)
+  Schedules      Schedule[]
+  courseLectures CourseLecture[]
 }
 
 model Lecture {
@@ -52,7 +55,21 @@ model Lecture {
   updatedAt  DateTime @updatedAt
 
   prefrredSlots LectureTimePrefrence[]
+  courseLecture CourseLecture[]
+  courses       Course[]
   Schedule      Schedule[]
+}
+
+model CourseLecture {
+  id        Int      @id @default(autoincrement())
+  courseID  Int
+  lectureID Int
+  createdAt DateTime @default(now())
+
+  course  Course  @relation(fields: [courseID], references: [id], onDelete: Cascade)
+  lecture Lecture @relation(fields: [lectureID], references: [id], onDelete: Cascade)
+
+  @@unique([courseID, lectureID])
 }
 
 model LectureTimePrefrence {
@@ -108,5 +125,7 @@ model Schedule {
   room     Room     @relation(fields: [roomID], references: [id], onDelete: Cascade)
   timeSlot TimeSlot @relation(fields: [timeSlotID], references: [id], onDelete: Cascade)
 
-  @@unique([classID, courseID, lectureID, roomID, timeSlotID])
+  @@unique([classID, timeSlotID])
+  @@unique([roomID, timeSlotID])
+  @@unique([lectureID, timeSlotID])
 }

@@ -1,7 +1,7 @@
 import { Lecture } from "@/types/lecture";
 import axiosInstance from "../axios";
 
-export const addLecturer = async (lecturer: Omit<Lecture, "id">) => {
+export const addLecturer = async (lecturer: any) => {
     const res = await axiosInstance.post("/lecture", lecturer)
     return res.data.data
 }

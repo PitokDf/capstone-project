@@ -1,0 +1,43 @@
+@startuml
+left to right direction
+
+actor Admin
+
+rectangle "Use Case Admin" {
+    (Login) as UC_Login
+    (Kelola Users) as UC_ManageUsers
+    (Kelola Dosen) as UC_ManageLecturers
+    (Kelola Mata Kuliah) as UC_ManageCourses
+    (Kelola Ruangan) as UC_ManageRooms
+    (Kelola Slot Waktu) as UC_ManageTimeSlots
+    (Generate Jadwal) as UC_GenerateSchedule
+    (Lihat Jadwal) as UC_ViewSchedule
+}
+
+' Relasi langsung Admin
+Admin --> UC_Login
+Admin --> UC_ManageUsers
+Admin --> UC_ManageLecturers
+Admin --> UC_ManageCourses
+Admin --> UC_ManageRooms
+Admin --> UC_ManageTimeSlots
+Admin --> UC_GenerateSchedule
+Admin --> UC_ViewSchedule
+
+' Include Login ke use case lain
+UC_ManageUsers --> UC_Login : <<include>>
+UC_ManageLecturers --> UC_Login : <<include>>
+UC_ManageCourses --> UC_Login : <<include>>
+UC_ManageRooms --> UC_Login : <<include>>
+UC_ManageTimeSlots --> UC_Login : <<include>>
+UC_GenerateSchedule --> UC_Login : <<include>>
+UC_ViewSchedule --> UC_Login : <<include>>
+
+' Include ke Generate Jadwal
+UC_GenerateSchedule --> UC_ManageUsers : <<include>>
+UC_GenerateSchedule --> UC_ManageLecturers : <<include>>
+UC_GenerateSchedule --> UC_ManageCourses : <<include>>
+UC_GenerateSchedule --> UC_ManageRooms : <<include>>
+UC_GenerateSchedule --> UC_ManageTimeSlots : <<include>>
+
+@enduml

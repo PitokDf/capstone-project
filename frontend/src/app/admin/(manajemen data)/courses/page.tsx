@@ -47,7 +47,7 @@ export default function CoursesPage() {
             </div>
 
             <CoursesTable
-                data={data}
+                data={data!}
                 isLoading={isLoading}
                 pageSize={10}
                 onDelete={handleDelete}

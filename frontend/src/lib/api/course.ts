@@ -1,7 +1,7 @@
 import { Course } from "@/types/course";
 import axiosInstance from "../axios";
 
-export async function getCourses() {
+export async function getCourses(): Promise<Course[]> {
     const res = await axiosInstance.get('/course');
     return res.data.data
 }

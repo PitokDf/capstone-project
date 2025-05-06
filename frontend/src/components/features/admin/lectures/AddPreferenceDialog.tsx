@@ -31,9 +31,6 @@ export function AddPrefrenceDialog({
             setSelectedTimeSlot([...selectedTimeSlot, slotId])
         }
     }
-    console.log(lecturer.prefrredSlots[0]);
-
-    console.log(selectedTimeSlot);
 
     // ambiak data dari API
     const { data: timeslots } = useQuery({

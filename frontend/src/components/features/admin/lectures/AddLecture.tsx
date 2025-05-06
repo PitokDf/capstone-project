@@ -7,11 +7,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { LecturerDialog } from "./LectureDialog";
+import { LecturerDialog, LecturerFormValues } from "./LectureDialog";
 
 export const AddLecture = () => {
     const [isOpen, setIsOpen] = useState(false)
-    const [serverErrors, setServerErrors] = useState<{ path: string; msg: string }[]>([]);
+    const [serverErrors, setServerErrors] = useState<{ path: any; msg: string }[]>([]);
     const qc = useQueryClient()
 
     const { mutateAsync: mutateAddLecturer, isPending } = useMutation({
@@ -34,7 +34,7 @@ export const AddLecture = () => {
             }
         }
     })
-    const handleAddLecturer = async (course: Omit<Lecture, "id">) => {
+    const handleAddLecturer = async (course: LecturerFormValues) => {
         await mutateAddLecturer(course)
     }
 

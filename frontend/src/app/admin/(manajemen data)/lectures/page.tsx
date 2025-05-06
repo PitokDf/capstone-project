@@ -6,6 +6,7 @@ import { AddLecture } from '@/components/features/admin/lectures/AddLecture';
 import { EditLecturee } from '@/components/features/admin/lectures/EditLecture';
 import { DeleteLecturer } from '@/components/features/admin/lectures/DeleteLecture';
 import { AddPrefrenceDialog } from '@/components/features/admin/lectures/AddPreferenceDialog';
+import { Lecture } from '@/types/lecture';
 
 interface Lecturer {
     id: number;
@@ -18,22 +19,22 @@ export default function LecturersPage() {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [isAddPrefrenceDialogOpen, setIsAddPrefrenceDialogOpen] = useState(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-    const [currentLecturer, setCurrentLecturer] = useState<Lecturer | null>(null);
+    const [currentLecturer, setCurrentLecturer] = useState<Lecture | null>(null);
 
     useEffect(() => { document.title = "Lectures - Admin" }, [])
 
-    const openEditDialog = (lecturer: Lecturer) => {
+    const openEditDialog = (lecturer: Lecture) => {
         setCurrentLecturer(lecturer);
         setIsEditDialogOpen(true);
     };
 
-    const openDeleteDialog = (lecturer: Lecturer) => {
+    const openDeleteDialog = (lecturer: Lecture) => {
         setCurrentLecturer(lecturer);
         setIsDeleteDialogOpen(true);
     };
 
 
-    const openAddPrefrenceeDialog = (lecturer: Lecturer) => {
+    const openAddPrefrenceeDialog = (lecturer: Lecture) => {
         setCurrentLecturer(lecturer);
         setIsAddPrefrenceDialogOpen(true);
     };

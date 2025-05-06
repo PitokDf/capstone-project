@@ -4,4 +4,5 @@ export interface Course {
     name: string;
     sks: number;
     duration: number;
+    lectureID: any;
 }

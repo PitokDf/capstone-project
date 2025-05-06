@@ -24,6 +24,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { LoaderCircle } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useApplyServerErrors } from '@/hooks/UseApplyServerErrors';
 
 // Schema for lecturer form validation
 const lecturerSchema = z.object({
@@ -32,9 +33,9 @@ const lecturerSchema = z.object({
     preference: z.string(),
 });
 
-type LecturerFormValues = z.infer<typeof lecturerSchema> & { id?: number };
+export type LecturerFormValues = z.infer<typeof lecturerSchema> & { id?: number };
 
-interface ServerError { path: string; msg: string }
+interface ServerError { path: keyof LecturerFormValues; msg: string }
 interface LecturerDialogProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
@@ -67,16 +68,7 @@ export function LecturerDialog({
         if (open && title === "Edit Lecturer") form.reset(defaultValues);
     }, [open]);
 
-    useEffect(() => {
-        serverErrors?.forEach(e => {
-            if (e.path && form.getFieldState(e.path as keyof LecturerFormValues).invalid === false) {
-                form.setError(e.path as keyof LecturerFormValues, {
-                    type: "server",
-                    message: e.msg
-                })
-            }
-        })
-    }, [serverErrors])
+    useApplyServerErrors<LecturerFormValues>(form, serverErrors!)
 
     const handleSubmit = form.handleSubmit(async data => {
         await onSave(defaultValues.id ? { ...data, id: defaultValues.id } : data)

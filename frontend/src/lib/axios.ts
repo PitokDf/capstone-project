@@ -10,9 +10,12 @@ const axiosInstance = axios.create({
 });
 
 
+
+
 axiosInstance.interceptors.request.use(
     (config) => {
         const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+        console.log(`base url: ${process.env.NEXT_PUBLIC_API_URL}`);
         console.log(`Token: ${token}`);
 
         if (token) {
@@ -31,8 +34,6 @@ axiosInstance.interceptors.response.use(
     (error) => {
         // Handle response error
         if (error.response) {
-            // The request was made and the server responded with a status code
-            console.error("Response error:", error.response.data);
             return Promise.reject(error);
         } else if (error.request) {
             return Promise.reject(error);

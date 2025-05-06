@@ -30,10 +30,10 @@ export const checkCourseByCodeExistsService = async (code: string, ignoreId?: nu
     return course ? true : false
 }
 
-export const createCourseService = async (code: string, name: string, sks: number, duration: number) => {
+export const createCourseService = async (code: string, name: string, sks: number, duration: number, lectureID: number) => {
     const course = await prisma.course.create({
         data: {
-            code, name, sks, duration
+            code, name, sks, duration, lectureID
         }
     })
 
@@ -42,10 +42,10 @@ export const createCourseService = async (code: string, name: string, sks: numbe
     return course
 }
 
-export const updateCourseService = async (id: number, code: string, name: string, sks: number, duration: number) => {
+export const updateCourseService = async (id: number, code: string, name: string, sks: number, duration: number, lectureID: number) => {
     const updatedCourse = await prisma.course.update({
         where: { id },
-        data: { code, name, sks, duration }
+        data: { code, name, sks, duration, lectureID }
     })
 
     if (!updatedCourse) throw new AppError("Gagal update data course");

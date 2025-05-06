@@ -23,10 +23,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { LoaderCircle } from 'lucide-react';
+import { SelectOptionLecture } from '../SelectOptionLectures';
 
 const courseSchema = z.object({
     code: z.string().min(2, "Code must be at least 2 characters").max(10, "Code cannot exceed 10 characters"),
     name: z.string().min(3, "Name must be at least 3 characters").max(125, "Name cannot exceed 125 characters"),
+    lectureID: z.string().min(1, "Lecture is required"),
     sks: z.coerce.number().int().min(1, "SKS must be at least 1").max(6, "SKS cannot exceed 6"),
     duration: z.coerce.number().int().min(30, "Duration must be at least 30 minutes").max(240, "Duration cannot exceed 240 minutes"),
 });
@@ -55,13 +57,17 @@ export function CourseDialog({
         code: '',
         name: '',
         sks: 3,
-        duration: 120
+        duration: 120,
+        lectureID: ''
     }
 }: CourseDialogProps) {
     const form = useForm<CourseFormValues>({
         resolver: zodResolver(courseSchema),
         defaultValues,
     });
+
+    console.log(defaultValues);
+
 
     useEffect(() => {
         if (open && title === "Edit Course") form.reset(defaultValues);
@@ -119,6 +125,20 @@ export function CourseDialog({
                                     <FormLabel>Course Name</FormLabel>
                                     <FormControl>
                                         <Input placeholder="e.g., Introduction to Computer Science" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="lectureID"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Course Name</FormLabel>
+                                    <FormControl>
+                                        <SelectOptionLecture defaultValue={String(field.value)} onValueChange={field.onChange} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

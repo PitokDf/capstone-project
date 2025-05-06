@@ -1,16 +1,9 @@
 import express, { Application } from "express";
 import dotenv from "dotenv"
-import authRoute from "./routes/auth.routes";
-import lectureRoute from "./routes/lecture.routes";
-import roomRouter from "./routes/room.routes";
 import cors from "cors"
-import courseRouter from "./routes/course.routes";
 import morgan from "morgan"
 import cookieParser from "cookie-parser";
-import timeSlotRouter from "./routes/timeSlot.routes";
-import scheduleRouter from "./routes/schedule.routes";
-import adminRouter from "./routes/admin.routes";
-import classRouter from "./routes/class.routes";
+import apiRouter from "./routes/index.routes";
 
 dotenv.config() // agar .env bisa terbaca
 
@@ -27,15 +20,8 @@ app.use(cookieParser()) // agar cookie bisa terbaca
 app.use(express.json()) // parse request json agar dapat diproses
 app.use(morgan('dev')) // menampilkan log request url
 
-// routers
-app.use("/auth", authRoute);
-app.use("/lecture", lectureRoute);
-app.use("/room", roomRouter);
-app.use("/course", courseRouter);
-app.use("/timeslot", timeSlotRouter);
-app.use("/schedule", scheduleRouter);
-app.use("/admin", adminRouter);
-app.use("/classes", classRouter);
+// routes
+app.use("/api", apiRouter)
 
 app.get("/", (req, res) => { return res.status(200).send("wellcome to API Penjadwalan mata kuliah") })
 

@@ -2,7 +2,19 @@ import { prisma } from "../config/prisma"
 import { AppError } from "../utils/errorHandler";
 
 export const getAllTimeSlotService = async () => {
-    const timeSlots = await prisma.timeSlot.findMany({ orderBy: { day: "asc" }, include: { Schedule: true } });
+    const timeSlots = await prisma.timeSlot.findMany({
+        orderBy: [{ day: "desc" }, { starTime: "asc" }], include:
+        {
+            Schedule: {
+                include: {
+                    lecture: { select: { name: true } },
+                    course: { select: { name: true } },
+                    class: { select: { name: true } },
+                    room: { select: { name: true } }
+                }
+            }
+        }
+    });
 
     return timeSlots;
 }

@@ -1,0 +1,37 @@
+@startuml
+start
+:Admin membuka halaman Generate Schedule;
+if (belum login?) then (ya)
+    :Redirect ke halaman Login;
+    stop
+else (tidak)
+endif
+:Admin klik tombol "Generate Schedule";
+:Kirim request POST /api/schedule/generate;
+fork
+    :Tampilkan tab Progress;
+    ' loop
+    :Polling GET /api/schedule/status/{taskId};
+    if (status == "in_progress") then (ya)
+        :Update progress bar & currentOperation;
+    else (selesai)
+        break
+    endif
+    'endloop
+fork again
+    :Tampilkan tab Conflicts ketika conflict >0;
+    if (terdapat konflik) then (ya)
+    :Tampilkan daftar konflik GET /api/schedule/conflicts/{taskId};
+    if (Admin klik Resolve) then
+        :Kirim POST /api/schedule/resolve/{taskId};
+        :Refresh conflicts;
+    endif
+    endif
+endfork
+:Jika proses selesai tanpa konflik atau setelah resolve;
+:Hit endpoint GET /api/schedule/result/{taskId};
+:Update tab Complete dengan hasil Statistik;
+:Admin klik "View Schedule";
+:Redirect ke halaman jadwal perkuliahan;
+stop
+@enduml

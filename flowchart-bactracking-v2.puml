@@ -1,0 +1,32 @@
+@startuml
+start
+:Inisialisasi daftar kelas, mata kuliah, dosen, ruangan, slot waktu;
+:Definisikan fungsi isValidAssignment;
+partition "Penjadwalan Kelas × Mata Kuliah" {
+    :idx = 0;
+    while (idx < classes.length * courses.length) is (lebih kecil?)
+        :compute classIndex, courseIndex;
+        partition Loop_{Dosen, Ruang, Slot} {
+            :Iterasi tiap dosen;
+            :Iterasi tiap ruangan;
+            :Iterasi tiap slot;
+            if (isValidAssignment) then (ya)
+                :Tambahkan assignment ke current;
+                :idx = idx + 1;
+                :rekursif panggil backtrack;
+                if (hasil) then (berhasil)
+                    stop
+                else (gagal)
+                    :pop assignment;
+                endif
+            else (tidak valid)
+            endif
+        }
+        if (tidak ada kombinasi valid?) then (ya)
+            ' ""
+        endif
+    endwhile
+}
+:Return currentSchedule;
+stop
+@enduml
