@@ -21,6 +21,8 @@ export async function login(req: Request, res: Response) {
             httpOnly: true,
             secure: true,
             sameSite: "none",
+            domain: ".capstone-project-rosy-seven.vercel.app",
+            path: '/',
             maxAge: 30 * 24 * 60 * 60 * 1000, // 30 hari
         });
 
