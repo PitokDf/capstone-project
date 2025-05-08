@@ -60,7 +60,7 @@ export function EditLecturee({
             title="Edit Lecturer"
             defaultValues={lecturer}
             onLoading={isPending}
-            serverErrors={serverErrors}
+            serverErrors={serverErrors as any}
         />
     )
 }

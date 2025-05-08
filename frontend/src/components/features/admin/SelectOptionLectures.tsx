@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 
 type SelectOptionLecturesProps = {
     onValueChange: any
-    defaultValue: any
+    defaultValue: string
 }
 
 
@@ -19,7 +19,7 @@ export function SelectOptionLecture({
     return (
         <Select
             onValueChange={onValueChange}
-            defaultValue={defaultValue}
+            defaultValue={defaultValue.toString()}
         >
             <FormControl>
                 <SelectTrigger>

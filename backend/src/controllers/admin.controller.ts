@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { handlerAnyError } from "../utils/errorHandler";
 import { prisma } from "../config/prisma";
+import { time } from "console";
 
 const formatTime = (date: Date) => {
     return date.toTimeString().slice(0, 5)
@@ -54,7 +55,10 @@ export const getStats = async (req: Request, res: Response) => {
     try {
         const totalClasses = await prisma.class.count()
         const totalLectures = await prisma.lecture.count()
-        const totalCourses = await prisma.course.count()
+        const timeSlots = await prisma.timeSlot.count()
+        const totalCourses = await prisma.course.count() // ambil total mata kuliah
+
+        // ambil data jadwal yang baru saja ditambahkan atau di update
         const recentSchedule = (await prisma.schedule.findMany({
             orderBy: { updatedAt: "desc" },
             take: 5,
@@ -74,15 +78,14 @@ export const getStats = async (req: Request, res: Response) => {
                 room: schedule.room.name,
                 day: schedule.timeSlot.day,
                 time: `${formatTime(schedule.timeSlot.starTime)} - ${formatTime(schedule.timeSlot.endTime)}`,
-                updated: getTimeAgo(schedule.createedAt)
+                updated: getTimeAgo(schedule.updatedAt)
             }
         })
-
 
         const upcomingEvents = (await prisma.schedule.findMany({
             where: {
                 timeSlot: {
-                    starTime: { gte: new Date().toISOString() },
+                    starTime: { gte: new Date() },
                 }
             },
             include: { course: true, room: true, lecture: true, timeSlot: true },
@@ -97,6 +100,29 @@ export const getStats = async (req: Request, res: Response) => {
             }
         })
 
+        const rooms = (await prisma.room.findMany({ include: { Schedule: true } }))
+        const utilization = {
+            '0-20%': 0,
+            '20-40%': 0,
+            '40-60%': 0,
+            '60-80%': 0,
+            '80-100%': 0
+        }
+
+        rooms.forEach(room => {
+            const usage = room.Schedule.length
+            const percentage = timeSlots > 0 ? (usage / timeSlots) * 100 : 0// usage = 10 -> (5 / 10) * 100 = 50% 
+            if (percentage <= 20) utilization["0-20%"]++;
+            else if (percentage <= 40) utilization["20-40%"]++;
+            else if (percentage <= 60) utilization["40-60%"]++; // maka utilization.value akan nambah satu
+            else if (percentage <= 80) utilization["60-80%"]++;
+            else utilization["80-100%"]++;
+
+        });
+
+        const roomUtilization = Object.entries(utilization).map(([name, value]) => ({
+            name, value
+        }))
         return res.status(200).json({
             message: "Berhasil mendapatkan data.",
             data: {
@@ -104,7 +130,8 @@ export const getStats = async (req: Request, res: Response) => {
                 totalLectures,
                 totalCourses,
                 recentSchedule,
-                upcomingEvents
+                upcomingEvents,
+                roomUtilization
             }
         })
     } catch (error) {

@@ -61,16 +61,27 @@ export function CourseDialog({
         lectureID: ''
     }
 }: CourseDialogProps) {
+    const initialValue: CourseFormValues = defaultValues ? {
+        code: defaultValues.code,
+        duration: defaultValues.duration,
+        name: defaultValues.name,
+        sks: defaultValues.sks,
+        lectureID: defaultValues.lectureID.toString() as any
+    } : {
+        code: "",
+        duration: 120,
+        lectureID: '',
+        name: "",
+        sks: 3
+    }
+
     const form = useForm<CourseFormValues>({
         resolver: zodResolver(courseSchema),
-        defaultValues,
+        defaultValues: initialValue,
     });
 
-    console.log(defaultValues);
-
-
     useEffect(() => {
-        if (open && title === "Edit Course") form.reset(defaultValues);
+        if (open && title === "Edit Course") form.reset(initialValue);
     }, [open]);
 
     useEffect(() => {
@@ -86,6 +97,7 @@ export function CourseDialog({
 
 
     const handleSubmit = form.handleSubmit(async data => {
+
         await onSave(defaultValues.id ? { ...data, id: defaultValues.id } : data)
         form.reset();
         onOpenChange(false)
@@ -136,9 +148,9 @@ export function CourseDialog({
                             name="lectureID"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Course Name</FormLabel>
+                                    <FormLabel>Lecture Name</FormLabel>
                                     <FormControl>
-                                        <SelectOptionLecture defaultValue={String(field.value)} onValueChange={field.onChange} />
+                                        <SelectOptionLecture defaultValue={field.value.toString()} onValueChange={field.onChange} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

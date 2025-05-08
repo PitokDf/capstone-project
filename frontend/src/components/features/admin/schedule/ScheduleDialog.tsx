@@ -63,7 +63,7 @@ export function ScheduleDialog({
     const initialValues: ScheduleFormValues = defaultValues
         ? {
             courseID: defaultValues.courseID.toString(),
-            lectureID: defaultValues.lectureID.toString(),
+            lectureID: defaultValues.lecturerID.toString(),
             roomID: defaultValues.roomID.toString(),
             timeSlotID: defaultValues.timeSlotID.toString(),
             classID: defaultValues.classID.toString()
@@ -110,7 +110,7 @@ export function ScheduleDialog({
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Course</FormLabel>
-                                    <SelectOptionCourse onValueChange={field.onChange} defaultValue={field.value} />
+                                    <SelectOptionCourse onValueChange={field.onChange} defaultValue={String(field.value)} />
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -122,7 +122,7 @@ export function ScheduleDialog({
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Lecturer</FormLabel>
-                                    <SelectOptionLecture onValueChange={field.onChange} defaultValue={field.value} />
+                                    <SelectOptionLecture onValueChange={field.onChange} defaultValue={String(field.value)} />
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -134,7 +134,7 @@ export function ScheduleDialog({
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Room</FormLabel>
-                                    <SelectOptionRoom defaultValue={field.value} onValueChange={field.onChange} />
+                                    <SelectOptionRoom defaultValue={String(field.value)} onValueChange={field.onChange} />
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -146,7 +146,7 @@ export function ScheduleDialog({
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Time Slot</FormLabel>
-                                    <SelectOptionTimeslot onValueChange={field.onChange} defaultValue={field.value} />
+                                    <SelectOptionTimeslot onValueChange={field.onChange} defaultValue={String(field.value)} />
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -157,7 +157,7 @@ export function ScheduleDialog({
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Class</FormLabel>
-                                    <SelectOptionClass onValueChange={field.onChange} defaultValue={field.value} />
+                                    <SelectOptionClass onValueChange={field.onChange} defaultValue={String(field.value)} />
                                     <FormMessage />
                                 </FormItem>
                             )}

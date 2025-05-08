@@ -11,10 +11,6 @@ import { AddSchedule } from '@/components/features/admin/schedule/AddSchedule';
 import { EditSchedule } from '@/components/features/admin/schedule/EditSchedule';
 import { Schedule } from '@/types/schedule';
 import { DeleteSchedule } from '@/components/features/admin/schedule/DeleteSchedule';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Switch } from '@/components/ui/switch';
 import { GenerateButton } from '@/components/features/admin/schedule/GenerateButton';
 
 
@@ -24,11 +20,10 @@ export default function SchedulesPage() {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [currentSchedule, setCurrentSchedule] = useState<Schedule | null>(null);
-    const [isGenerating, setIsGenerating] = useState(false);
 
     const openEditDialog = (schedule: Schedule) => {
         setCurrentSchedule(schedule);
-        console.log(schedule);
+        console.log("Schedule selected: ", schedule);
 
         setIsEditDialogOpen(true);
     };

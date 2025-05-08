@@ -6,7 +6,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import axiosInstance from "@/lib/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -20,7 +19,6 @@ const formSchema = z.object({
 type LoginFormValues = z.infer<typeof formSchema>;
 
 export function LoginForm() {
-    const router = useRouter()
     const [error, setError] = useState<string | null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const form = useForm<LoginFormValues>({
@@ -37,11 +35,10 @@ export function LoginForm() {
             const response = await axiosInstance.post('/auth/login', data);
             if (response.status === 200) {
                 toast("Login berhasil", {
-                    description: "Silahkan tunggu, kamu sedang dialihkan.",
-                    duration: 2000
+                    description: "Silahkan tunggu, kamu sedang dialihkan."
                 })
 
-                router.push("/admin")
+                location.href = "/admin"
             }
         } catch (error: any) {
             console.log(error);

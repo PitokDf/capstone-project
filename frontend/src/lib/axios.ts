@@ -15,9 +15,6 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
     (config) => {
         const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-        console.log(`base url: ${process.env.NEXT_PUBLIC_API_URL}`);
-        console.log(`Token: ${token}`);
-
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }

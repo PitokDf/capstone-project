@@ -36,6 +36,9 @@ export const getTimeSlots = async (req: Request, res: Response) => {
                 lecturerName: schedule.lecture.name,
                 roomID: schedule.roomID,
                 roomName: schedule.room.name,
+                day: slot.day,
+                startTime: "11:30",
+                endTime: "13:30",
                 color: getColor(schedule.id)
             }))
         }))

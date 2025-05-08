@@ -1,7 +1,8 @@
 
 import { prisma } from "../config/prisma";
 import { Schedule, ScheduleData } from "../types/types";
-import { backtrackScheduling } from "../utils/bactraking";
+import { backtrackScheduling } from "../utils/bactracking-v3";
+// import { backtrackScheduling } from "../utils/bactraking";
 import { AppError } from "../utils/errorHandler";
 
 export async function getSchedulesService() {
@@ -72,6 +73,7 @@ export async function generateScheduleService(options: ScheduleOptions = {}): Pr
             console.log('Clearing existing schedules...');
             await prisma.schedule.deleteMany({});
         }
+
         // ambil data mata kuliah dari databases
         const courses = await prisma.course.findMany({
             include: {
@@ -106,7 +108,7 @@ export async function generateScheduleService(options: ScheduleOptions = {}): Pr
         })
 
         // Kumpulkan preferensi dosen dalam format yang mudah diakses
-        const lecturePreferenceMap: Record<number, number[]> = {}; // output: {1, [1,2,3]}
+        const lecturePreferenceMap: Record<number, number[]> = {}; // output: {1, [1,2,3]} => kiri: lectureID, kanan: timeslotID
         lecturerPreferences.forEach(pref => {
             if (!lecturePreferenceMap[pref.lectureID]) {
                 lecturePreferenceMap[pref.lectureID] = [];

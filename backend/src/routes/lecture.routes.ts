@@ -7,7 +7,7 @@ import { addLectureTimePrefrence } from "../controllers/lecture_time_prefrence.c
 
 const lectureRoute = Router()
 
-lectureRoute.get("/", jwtCheckToken, getAllLecture)
+lectureRoute.get("/", getAllLecture)
 lectureRoute.get("/:id", jwtCheckToken, getLectureById)
 lectureRoute.delete("/:id", jwtCheckToken, deleteLecture)
 lectureRoute.put("/:id", jwtCheckToken, updateLectureValidator, checkValidasiRequest, updateLecture)

@@ -20,6 +20,7 @@ export default function DashboardPage() {
                 totalCourses: number
                 recentSchedule: ScheduleItem[]
                 upcomingEvents: UpcomingEventItem[]
+                roomUtilization: { name: string, value: number }[]
             }
         }
     })
@@ -38,7 +39,7 @@ export default function DashboardPage() {
                     <TabsTrigger value="analytics">Analytics</TabsTrigger>
                 </TabsList>
                 <TabsContent value="overview" className="space-y-4">
-                    <DashboardStats />
+                    <DashboardStats data={data?.roomUtilization!} isLoading={isPending} />
                     <Total totalClasses={data?.totalClasses!} totalCourses={data?.totalCourses!} totalLectures={data?.totalLectures!} />
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
                         <RecentSchedules isLoading={isPending} data={data?.recentSchedule!} />

@@ -4,10 +4,7 @@ import { AppProgressBar, AppProgressBar as ProgressBar } from 'next-nprogress-ba
 import AdminAppBar from "@/components/layouts/AppBar";
 import { AppSidebar } from "@/components/layouts/sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import 'nprogress/nprogress.css';
-
-const queryClient = new QueryClient();
 
 export default function AdminLayout({
     children,
@@ -26,9 +23,7 @@ export default function AdminLayout({
                             color='#fff'
                             shallowRouting
                             disableStyle={true} />
-                        <QueryClientProvider client={queryClient}>
-                            {children}
-                        </QueryClientProvider>
+                        {children}
                     </div>
                 </main>
             </div>

@@ -14,14 +14,7 @@ import {
 } from "recharts";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScheduleChart } from "./ScheduleChart";
-
-const data = [
-  { name: "Monday", value: 15 },
-  { name: "Tuesday", value: 18 },
-  { name: "Wednesday", value: 20 },
-  { name: "Thursday", value: 16 },
-  { name: "Friday", value: 12 },
-];
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const COLORS = [
   "#3B82F6", // Blue-500
@@ -35,7 +28,12 @@ export const COLORS = [
 ];
 
 
-export function DashboardStats() {
+type DashboardStatsProps = {
+  data: { name: string, value: number }[]
+  isLoading: boolean
+}
+
+export function DashboardStats({ data, isLoading }: DashboardStatsProps) {
   return (
     <div className="grid gap-4 md:grid-cols-2">
       <ScheduleChart />
@@ -48,40 +46,38 @@ export function DashboardStats() {
         </CardHeader>
         <CardContent>
           <div className="h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={[
-                    { name: '80-100%', value: 12 },
-                    { name: '60-80%', value: 18 },
-                    { name: '40-60%', value: 10 },
-                    { name: '20-40%', value: 5 },
-                    { name: '0-20%', value: 3 }
-                  ]}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={120}
-                  fill="#8884d8"
-                  paddingAngle={2}
-                  dataKey="value"
-                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                  labelLine={true}
-                >
-                  {data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: `${COLORS[2]}`,
-                    borderColor: 'hsl(var(--border))',
-                    borderRadius: '0.5rem',
-                    boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)'
-                  }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
+            {isLoading ? (
+              <Skeleton className="h-full w-full" />
+            ) : (
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={data}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={120}
+                    fill="#8884d8"
+                    paddingAngle={2}
+                    dataKey="value"
+                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                    labelLine={true}
+                  >
+                    {data.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: `${COLORS[2]}`,
+                      borderColor: 'hsl(var(--border))',
+                      borderRadius: '0.5rem',
+                      boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)'
+                    }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            )}
           </div>
         </CardContent>
       </Card>

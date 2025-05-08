@@ -1,19 +1,17 @@
-import { Class } from "./class"
-import { Course } from "./course"
-import { Lecture } from "./lecture"
-import { Room } from "./room"
-import { Timeslot } from "./timeslot"
+
 
 export interface Schedule {
     id: number
     classID: number
-    class?: Class
+    className?: string
     courseID: number
-    course?: Course
-    lectureID: number
-    lecture?: Lecture
+    courseName?: string
+    lecturerID: number
+    lecturerName?: string
     roomID: number
-    room?: Room
-    timeSlotID: number
-    timeSlot?: Timeslot
+    roomName?: string
+    day?: string
+    startTime?: string
+    endTime?: string
+    color: string
 }

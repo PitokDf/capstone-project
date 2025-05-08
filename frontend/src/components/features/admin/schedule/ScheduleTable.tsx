@@ -2,7 +2,6 @@ import { DeleteButton } from "@/components/DeleteButton";
 import { EditButton } from "@/components/EditButton";
 import { DataTable } from "@/components/ui/data-table";
 import { getSchedules } from "@/lib/api/schedule";
-import { formatTime } from "@/lib/utils";
 import { Schedule } from "@/types/schedule";
 import { useQuery } from "@tanstack/react-query";
 
@@ -25,39 +24,39 @@ export function ScheduleTable({
             isLoading={isPending}
             columns={[
                 {
-                    header: "Course", accessorKey: "course",
+                    header: "Course", accessorKey: "courseName",
                     cell: (item) => (
-                        <span>{item.course?.name}</span>
+                        <span>{item.courseName}</span>
                     )
                 },
                 {
-                    header: "Dosen", accessorKey: "lecture",
+                    header: "Dosen", accessorKey: "lecturerName",
                     cell: (item) => (
-                        <span>{item.lecture?.name}</span>
+                        <span>{item.lecturerName}</span>
                     )
                 },
                 {
-                    header: "Room", accessorKey: "room",
+                    header: "Room", accessorKey: "roomName",
                     cell: (item) => (
-                        <span>{item.room?.name}</span>
+                        <span>{item.roomName}</span>
                     )
                 },
                 {
-                    header: "Class", accessorKey: "class",
+                    header: "Class", accessorKey: "className",
                     cell: (item) => (
-                        <span>{item.class?.name}</span>
+                        <span>{item.className}</span>
                     )
                 },
                 {
-                    header: "day", accessorKey: "timeSlotID",
+                    header: "day", accessorKey: "day",
                     cell: (item) => (
-                        <span>{item.timeSlot?.day}</span>
+                        <span>{item.day}</span>
                     )
                 },
                 {
-                    header: "Time", accessorKey: "timeSlotID",
+                    header: "Time", accessorKey: "endTime",
                     cell: (item) => (
-                        <span>{formatTime(item.timeSlot?.starTime!)} - {formatTime(item.timeSlot?.endTime!)}</span>
+                        <span>{item.startTime} - {item.endTime}</span>
                     )
                 },
                 {
