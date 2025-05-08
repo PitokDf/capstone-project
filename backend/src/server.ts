@@ -11,7 +11,7 @@ const app: Application = express() // instance dari express
 const port = process.env.PORT || 2000 // port
 
 app.use(cors({
-    origin: ["http://10.126.24.19:3000", process.env.CLIENT_URL!], // url frontend
+    origin: ['https://capstone-project-rosy-seven.vercel.app', process.env.CLIENT_URL!], // url frontend
     methods: ["GET", "POST", "PUT", "DELETE"], // method yang diijinkan
     credentials: true, // agar bisa mengakses cookie dari frontend
 }))
