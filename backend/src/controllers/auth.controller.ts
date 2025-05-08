@@ -15,26 +15,14 @@ export async function login(req: Request, res: Response) {
         if (!matchPassword) return res.status(400).json({ message: "email atau password salah." });
 
         const token = await generateToken({ username: user.username, email: user.email, id: user.id, createdAt: user.createdAt })
-        const cookie = [
-            `token=${token}`,
-            'HttpOnly',
-            'Secure',
-            'SameSite=None',
-            'Partitioned',     // <<< ini penting biar Chrome terima
-            'Path=/',
-            `Max-Age=${30 * 24 * 60 * 60}` // 30 hari
-        ].join('; ');
 
-        // Kirim header
-        res.setHeader('Set-Cookie', cookie);
-
-        // res.cookie('token', token, {
-        //     httpOnly: true,
-        //     secure: true,
-        //     sameSite: "none",
-        //     path: '/',
-        //     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 hari
-        // });
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+            path: '/',
+            maxAge: 30 * 24 * 60 * 60 * 1000, // 30 hari
+        });
 
 
         return res.status(200).json({

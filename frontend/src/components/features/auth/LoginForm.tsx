@@ -38,7 +38,7 @@ export function LoginForm() {
                     description: "Silahkan tunggu, kamu sedang dialihkan."
                 })
 
-                location.href = "/admin"
+                // location.href = "/admin"
             }
         } catch (error: any) {
             console.log(error);
