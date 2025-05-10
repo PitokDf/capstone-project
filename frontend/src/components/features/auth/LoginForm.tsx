@@ -37,8 +37,9 @@ export function LoginForm() {
                 toast("Login berhasil", {
                     description: "Silahkan tunggu, kamu sedang dialihkan."
                 })
-
-                // location.href = "/admin"
+                const token = response.data.data.token;
+                document.cookie = `token=${token}; path=/; max-agge=${60 * 60 * 24 * 7 * 30}`
+                location.href = "/admin"
             }
         } catch (error: any) {
             console.log(error);
