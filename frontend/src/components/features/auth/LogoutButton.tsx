@@ -24,9 +24,7 @@ export default function LogOutButton() {
     const router = useRouter()
 
     const handleLogout = async () => {
-        const res = await axiosInstance.post("/auth/logout");
-        console.log(res.data);
-
+        document.cookie = "token=; path=/; max-age=0";
         router.push("/admin/login", { scroll: false })
     }
 
