@@ -7,12 +7,13 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Pagination } from "@/components/ui/pagination";
-import { Skeleton } from "./skeleton";
 import { Search } from "lucide-react";
 import { Input } from "./input";
 import { useState } from "react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./select";
 import { DataTableSkeleton } from "./data-table-skeleton";
+import { Checkbox } from "./checkbox";
+import { Label } from "./label";
 
 interface DataTableProps<T> {
     data: T[];
@@ -21,10 +22,13 @@ interface DataTableProps<T> {
         accessorKey: keyof T;
         cell?: (item: T) => React.ReactNode;
     }[];
+    showCheckBox?: boolean;
     filterBy?: {
         label: string;
         value: keyof T;
     }[];
+    selectedIds?: any[];
+    setSelectedIds?: React.Dispatch<React.SetStateAction<any[]>>;
     isLoading: boolean;
     pageSize?: number;
     emptyMessage?: string;
@@ -36,7 +40,10 @@ export function DataTable<T>({
     isLoading = true,
     pageSize = 10,
     filterBy,
+    showCheckBox = false,
     emptyMessage = "No items found.",
+    selectedIds,
+    setSelectedIds
 }: DataTableProps<T>) {
 
     if (isLoading) {
@@ -119,6 +126,23 @@ export function DataTable<T>({
                     <Table>
                         <TableHeader>
                             <TableRow>
+                                {showCheckBox && (
+                                    <TableHead>
+                                        <div className="flex gap-2">
+                                            <Checkbox id="select-all"
+                                                onCheckedChange={(checked) => {
+                                                    if (checked) {
+                                                        setSelectedIds && setSelectedIds(filteredData.slice((currentPage - 1) * pageSize, currentPage * pageSize)?.map((item: any) => item.id))
+                                                    } else {
+                                                        setSelectedIds && setSelectedIds([])
+                                                    }
+                                                }}
+                                                checked={selectedIds?.length! > 0 && true}
+                                            />
+                                            All
+                                        </div>
+                                    </TableHead>
+                                )}
                                 {columns.map((column, index) => (
                                     <TableHead key={index}>{column.header}</TableHead>
                                 ))}
@@ -135,8 +159,26 @@ export function DataTable<T>({
                                     </TableCell>
                                 </TableRow>
                             ) : (
+
                                 filteredData?.slice((currentPage - 1) * pageSize, currentPage * pageSize).map((item, rowIndex) => (
                                     <TableRow key={rowIndex}>
+                                        {showCheckBox && (
+                                            <TableCell>
+                                                <div className="flex gap-2">
+                                                    <Checkbox
+                                                        onCheckedChange={(checked) => {
+                                                            const id = (item as any).id;
+                                                            if (checked) {
+                                                                setSelectedIds && setSelectedIds(prev => [...prev, id])
+                                                            } else {
+                                                                setSelectedIds && setSelectedIds(prev => prev.filter((prevId) => prevId != id))
+                                                            }
+                                                        }}
+                                                        checked={selectedIds?.length! > 0 && selectedIds?.includes((item as any).id)}
+                                                        id={`select-${(item as any).id}`} />
+                                                </div>
+                                            </TableCell>
+                                        )}
                                         {columns.map((column, colIndex) => (
                                             <TableCell key={colIndex}>
                                                 {column.cell

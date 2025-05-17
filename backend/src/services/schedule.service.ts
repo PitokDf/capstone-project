@@ -1,9 +1,11 @@
 
 import { prisma } from "../config/prisma";
 import { Schedule, ScheduleData } from "../types/types";
-import { backtrackScheduling } from "../utils/bactracking-v3";
+// import { backtrackScheduling } from "../utils/bactracking-v3";
 // import { backtrackScheduling } from "../utils/bactraking";
 import { AppError } from "../utils/errorHandler";
+import { backtrackScheduling } from "../utils/optimized-scheduling-code";
+// import { backtrackScheduling } from "../utils/scheduler";
 
 export async function getSchedulesService() {
     const schedules = await prisma.schedule.findMany({
@@ -131,7 +133,27 @@ export async function generateScheduleService(options: ScheduleOptions = {}): Pr
         const success = await backtrackScheduling(scheduleData, [], schedulesResult)
 
         if (success) {
-            console.log(`Successfully generated ${schedulesResult.length} schedules.`);
+            // Simpan ke database jika diminta
+            if (options?.saveToDatabase !== false) {
+                try {
+                    console.log('Menyimpan jadwal ke database...');
+                    for (const schedule of schedulesResult) {
+                        await prisma.schedule.create({
+                            data: {
+                                classID: schedule.classID,
+                                courseID: schedule.courseID,
+                                lectureID: schedule.lectureID,
+                                roomID: schedule.roomID,
+                                timeSlotID: schedule.timeSlotID
+                            }
+                        });
+                    }
+                    console.log('Berhasil menyimpan jadwal ke database.');
+                    console.log(`Successfully generated ${schedulesResult.length} schedules.`);
+                } catch (error) {
+                    console.error('Error menyimpan jadwal ke database:', error);
+                }
+            }
         } else {
             console.log('Failed to find a complete valid schedule. Returning partial results.');
         }

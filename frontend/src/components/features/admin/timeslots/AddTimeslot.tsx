@@ -5,7 +5,6 @@ import { TimeSlotDialog, TimeSlotFormValues } from "./TimeSlotDialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addTimeslot } from "@/lib/api/timeslot";
 import { toast } from "sonner";
-import { Timeslot } from "@/types/timeslot";
 
 export function AddTimeSlot() {
     const [serverErrors, setServerErrors] = useState<{ path: string, msg: string }[]>([])

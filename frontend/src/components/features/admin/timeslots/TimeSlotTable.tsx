@@ -1,18 +1,19 @@
 import { DeleteButton } from "@/components/DeleteButton";
 import { EditButton } from "@/components/EditButton";
-import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { getTimeslots } from "@/lib/api/timeslot";
 import { formatTime } from "@/lib/utils";
 import { Timeslot } from "@/types/timeslot";
 import { useQuery } from "@tanstack/react-query";
-import { Pencil, Trash2 } from "lucide-react";
+import React from "react";
 
 type TimeSlotTableProps = {
     onEdit: (data: Timeslot) => void;
     onDelete: (data: Timeslot) => void;
+    setSelectedIds: React.Dispatch<React.SetStateAction<any[]>>
+    selectedIds: any[];
 }
-export function TimeSlotTable({ onEdit, onDelete }: TimeSlotTableProps) {
+export function TimeSlotTable({ onEdit, onDelete, selectedIds, setSelectedIds }: TimeSlotTableProps) {
     const { data, isPending } = useQuery({
         queryFn: getTimeslots,
         queryKey: ["timeslots"]
@@ -20,7 +21,10 @@ export function TimeSlotTable({ onEdit, onDelete }: TimeSlotTableProps) {
 
     return (
         <DataTable
+            showCheckBox
             data={data!}
+            selectedIds={selectedIds}
+            setSelectedIds={setSelectedIds}
             isLoading={isPending}
             columns={[
                 { header: "Day", accessorKey: "day" },

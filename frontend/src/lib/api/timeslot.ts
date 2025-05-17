@@ -24,3 +24,8 @@ export async function deleteTimeslot(id: number) {
     const res = await axiosInstance.delete(`/timeslot/${id}`)
     return res.data.data
 }
+
+export async function bulkDelete(ids: any[]) {
+    const res = await axiosInstance.delete(`/timeslot/bulk-delete/${ids}`)
+    return res.data.data
+}

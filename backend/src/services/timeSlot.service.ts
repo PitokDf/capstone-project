@@ -76,3 +76,9 @@ export const deleteTimeSlotService = async (id: number) => {
 
     return deletedTimeSlot
 }
+
+export async function bulkDeleteTimeSlotService(ids: number[]) {
+    const deleted = await prisma.timeSlot.deleteMany({ where: { id: { in: ids } } })
+
+    return deleted
+}
