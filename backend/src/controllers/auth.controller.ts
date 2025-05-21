@@ -15,7 +15,7 @@ export async function login(req: Request, res: Response) {
         if (!matchPassword) return res.status(400).json({ message: "email atau password salah." });
 
         const token = await generateToken({ username: user.username, email: user.email, id: user.id, createdAt: user.createdAt })
-        res.cookie("token", token, {
+        res.cookie("token-backend", token, {
             httpOnly: true,
             // expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
             secure: process.env.NODE_ENV === "production" ? true : false,
