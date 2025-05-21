@@ -126,19 +126,20 @@ export function TimeSlotDialog({
         defaultValues: initialValues,
     });
 
-    const handleSubmit = form.handleSubmit(async data => {
+    const handleSubmit = form.handleSubmit(async (data: any) => {
 
         // Parse time strings to Date objects
         const [startHour, startMinute] = data.starTime.split(':').map(Number);
         const [endHour, endMinute] = data.endTime.split(':').map(Number);
 
-        const baseDate = Date.now();
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
 
-        const starTime = new Date(baseDate);
+        const starTime = new Date(today);
         starTime.setHours(startHour, startMinute);
         console.log(starTime);
 
-        const endTime = new Date(baseDate);
+        const endTime = new Date(today);
         endTime.setHours(endHour, endMinute);
 
         await onSave(defaultValues?.id
