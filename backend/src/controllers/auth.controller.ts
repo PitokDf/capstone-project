@@ -21,6 +21,9 @@ export async function login(req: Request, res: Response) {
             secure: process.env.NODE_ENV === "production" ? true : false,
             sameSite: process.env.NODE_ENV === "production" ? 'none' : "lax"
         })
+
+        console.log(process.env.NODE_ENV);
+
         return res.status(200).json({
             message: "Berhasil login",
             data: {
