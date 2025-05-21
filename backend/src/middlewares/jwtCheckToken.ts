@@ -2,10 +2,9 @@ import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken";
 
 export const jwtCheckToken = (req: Request, res: Response, next: NextFunction) => {
-    const token = req.cookies.token;
+    const token = req.headers.cookie?.split(";").find(c => c.trim().startsWith("token="))?.split("=")[1] ?? null;
 
     console.log("Token", token);
-
 
     if (!token) return res.status(401).json({ messagge: "Token dibutuhkan." });
 
