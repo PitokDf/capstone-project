@@ -33,8 +33,18 @@ export async function getSchedules(req: Request, res: Response) {
             roomName: sch.room.name,
             day: sch.timeSlot.day,
             timeSlotID: sch.timeSlot.id,
-            startTime: formatTime(sch.timeSlot.starTime),
-            endTime: formatTime(sch.timeSlot.endTime),
+            startTime: sch.timeSlot.starTime.toLocaleTimeString("id-ID", {
+                timeZone: 'Asia/Jakarta',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            }),
+            endTime: sch.timeSlot.endTime.toLocaleTimeString("id-ID", {
+                timeZone: 'Asia/Jakarta',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            }),
             color: getColor(sch.id)
         }))
 
