@@ -152,7 +152,7 @@ export function DataTable<T>({
                             {filteredData?.length === 0 ? (
                                 <TableRow>
                                     <TableCell
-                                        colSpan={columns.length}
+                                        colSpan={showCheckBox ? columns.length + 1 : columns.length}
                                         className="text-center h-24 text-muted-foreground"
                                     >
                                         {emptyMessage}

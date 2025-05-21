@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { handlerAnyError } from "../utils/errorHandler";
-import { addTimeSlotService, bulkDeleteTimeSlotService, deleteTimeSlotService, getAllTimeSlotService, updateTimeSlotService } from "../services/timeSlot.service";
+import { addTimeSlotService, bulkDeleteTimeSlotService, createTimeSlotToNext, deleteTimeSlotService, getAllTimeSlotService, updateTimeSlotService } from "../services/timeSlot.service";
 
 const dayOrder = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 const colors = [
@@ -128,6 +128,19 @@ export async function timeSlotBulkDelete(req: Request, res: Response) {
         return res.status(200).json({
             message: "Berhasil menghapus data",
             data: deleted.count
+        })
+    } catch (error) {
+        return handlerAnyError(error, res)
+    }
+}
+
+export async function createTimeSlotToNextController(req: Request, res: Response) {
+    try {
+        const { days } = req.body
+        const created = await createTimeSlotToNext(days)
+
+        return res.status(201).json({
+            message: `Berhasil memnyalin slot waktu ${created.count}`
         })
     } catch (error) {
         return handlerAnyError(error, res)

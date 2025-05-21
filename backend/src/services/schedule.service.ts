@@ -5,6 +5,7 @@ import { Schedule, ScheduleData } from "../types/types";
 // import { backtrackScheduling } from "../utils/bactraking";
 import { AppError } from "../utils/errorHandler";
 import { backtrackScheduling } from "../utils/optimized-scheduling-code";
+import { improvedBacktrackScheduling } from "../utils/bactracking-v4";
 // import { backtrackScheduling } from "../utils/scheduler";
 
 export async function getSchedulesService() {
@@ -130,7 +131,7 @@ export async function generateScheduleService(options: ScheduleOptions = {}): Pr
 
         // Memulai panjadwalan dengan jadwal awal kosong
         console.log("Starting bactracking algorithm...");
-        const success = await backtrackScheduling(scheduleData, [], schedulesResult)
+        const success = await improvedBacktrackScheduling(scheduleData, [], null, 0, schedulesResult)
 
         if (success) {
             // Simpan ke database jika diminta

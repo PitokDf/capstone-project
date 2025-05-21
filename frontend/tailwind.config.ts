@@ -8,18 +8,12 @@ const config: Config = {
         './app/**/*.{js,ts,jsx,tsx,mdx}',
     ],
     theme: {
-        container: {
-            center: true,
-            padding: "2rem",
-            screens: {
-                "2xl": "1400px",
-            },
-        },
         extend: {
             fontFamily: {
                 sans: ['var(--font-inter)'],
             },
             colors: {
+                // ShadCN Colors - Dipertahankan
                 border: "hsl(var(--border))",
                 input: "hsl(var(--input))",
                 ring: "hsl(var(--ring))",
@@ -49,16 +43,93 @@ const config: Config = {
                     DEFAULT: "hsl(var(--popover))",
                     foreground: "hsl(var(--popover-foreground))",
                 },
-                card: {
-                    DEFAULT: "hsl(var(--card))",
-                    foreground: "hsl(var(--card-foreground))",
-                },
                 chart: {
                     '1': "hsl(var(--chart-1))",
                     '2': "hsl(var(--chart-2))",
                     '3': "hsl(var(--chart-3))",
                     '4': "hsl(var(--chart-4))",
                     '5': "hsl(var(--chart-5))",
+                },
+
+                // Custom Theme Colors - Ditambahkan
+                bg: {
+                    light: '#F8FAFC',
+                    DEFAULT: '#F8FAFC',
+                    dark: '#121826',
+                    secondary: {
+                        light: '#F1F5F9',
+                        dark: '#1E293B',
+                    },
+                },
+                navbar: {
+                    light: '#1E3A8A',
+                    dark: '#0F172A',
+                },
+                sidebar: {
+                    light: '#FFFFFF',
+                    dark: '#1E293B',
+                    hover: {
+                        light: '#F8FAFC',
+                        dark: '#273549',
+                    },
+                    active: {
+                        light: '#EFF6FF',
+                        dark: '#1E40AF20',
+                    },
+                },
+                card: {
+                    light: '#FFFFFF',
+                    dark: '#1E293B',
+                    header: {
+                        light: '#F1F5F9',
+                        dark: '#0F172A',
+                    },
+                },
+                text: {
+                    primary: {
+                        light: '#111827',
+                        dark: '#F8FAFC',
+                    },
+                    secondary: {
+                        light: '#4B5563',
+                        dark: '#CBD5E1',
+                    },
+                    muted: {
+                        light: '#9CA3AF',
+                        dark: '#64748B',
+                    },
+                },
+                btn: {
+                    primary: {
+                        DEFAULT: '#2563EB',
+                        hover: '#1D4ED8',
+                    },
+                    secondary: {
+                        light: '#F1F5F9',
+                        dark: '#334155',
+                        hover: {
+                            light: '#E2E8F0',
+                            dark: '#475569',
+                        },
+                    },
+                    success: {
+                        DEFAULT: '#10B981',
+                        hover: '#059669',
+                    },
+                    warning: {
+                        DEFAULT: '#FBBF24',
+                        hover: '#F59E0B',
+                    },
+                    danger: {
+                        DEFAULT: '#EF4444',
+                        hover: '#DC2626',
+                    },
+                },
+                status: {
+                    active: '#059669',
+                    upcoming: '#0EA5E9',
+                    completed: '#6B7280',
+                    deadline: '#DC2626',
                 },
             },
             borderRadius: {

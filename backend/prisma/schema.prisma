@@ -107,6 +107,8 @@ model TimeSlot {
 
   lecturePrefrences LectureTimePrefrence[]
   Schedule          Schedule[]
+
+  @@unique([day, starTime, endTime])
 }
 
 model Schedule {

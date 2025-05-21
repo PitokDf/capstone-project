@@ -82,3 +82,24 @@ export async function bulkDeleteTimeSlotService(ids: number[]) {
 
     return deleted
 }
+
+export async function createTimeSlotToNext(days: string[]) {
+    const alreadyDay = (await getAllTimeSlotService())
+    const data: any[] = []
+    days.forEach(day => {
+        alreadyDay.forEach((slot) => {
+            data.push({
+                day,
+                starTime: slot.starTime,
+                endTime: slot.endTime
+            })
+        })
+    })
+
+    const created = await prisma.timeSlot.createMany({
+        data: data,
+        skipDuplicates: true
+    })
+
+    return created
+}
