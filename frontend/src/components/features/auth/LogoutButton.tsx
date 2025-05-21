@@ -30,6 +30,7 @@ export default function LogOutButton() {
             const res = await axiosInstance.post("/auth/logout")
 
             if (res.data.success) {
+                document.cookie = `token=; path=/; max-age=;`
                 router.push("/admin/login", { scroll: false })
             }
         } catch (error) {
