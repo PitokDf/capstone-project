@@ -2,6 +2,7 @@ import { DeleteButton } from "@/components/DeleteButton";
 import { EditButton } from "@/components/EditButton";
 import { DataTable } from "@/components/ui/data-table";
 import { getSchedules } from "@/lib/api/schedule";
+import { formatTime } from "@/lib/utils";
 import { Schedule } from "@/types/schedule";
 import { useQuery } from "@tanstack/react-query";
 
@@ -56,7 +57,7 @@ export function ScheduleTable({
                 {
                     header: "Time", accessorKey: "endTime",
                     cell: (item) => (
-                        <span>{item.startTime} - {item.endTime}</span>
+                        <span>{formatTime(item.startTime!)} - {formatTime(item.endTime!)}</span>
                     )
                 },
                 {

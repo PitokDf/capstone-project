@@ -56,8 +56,8 @@ const sortDays = (a: string, b: string): number => {
 // Helper to check if scheduleItem belongs to the timeSlot
 const isInTimeSlot = (scheduleItem: ScheduleItem, timeSlot: string): boolean => {
   const [slotStart, slotEnd] = timeSlot.split("-");
-  const itemStartMinutes = timeToMinutes(scheduleItem.startTime);
-  const itemEndMinutes = timeToMinutes(scheduleItem.endTime);
+  const itemStartMinutes = timeToMinutes(formatTime(scheduleItem.startTime));
+  const itemEndMinutes = timeToMinutes(formatTime(scheduleItem.endTime));
   const slotStartMinutes = timeToMinutes(slotStart);
   const slotEndMinutes = timeToMinutes(slotEnd);
 
@@ -110,6 +110,7 @@ export function WeeklySchedule({ filterType, filterValue }: WeeklyScheduleProps)
 
   // Function to get schedule items for a specific day and time slot
   const getScheduleItems = (day: string, timeSlot: string): ScheduleItem[] => {
+
     if (!filteredSchedule) return [];
 
     return filteredSchedule.filter(item =>
@@ -188,7 +189,7 @@ function SingleScheduleItem({ scheduleItem }: { scheduleItem: ScheduleItem }) {
                 Room: {scheduleItem.roomName}
               </Badge>
               <Badge variant="outline" className="w-fit text-xs">
-                {scheduleItem.startTime} - {scheduleItem.endTime}
+                {formatTime(scheduleItem.startTime)} - {formatTime(scheduleItem.endTime)}
               </Badge>
             </div>
           </div>
