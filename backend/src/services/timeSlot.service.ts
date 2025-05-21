@@ -42,12 +42,18 @@ export const existingSlot = async (day: string, starTime: Date, endTime: Date, i
     return isOverlap ? true : false
 }
 
+function convertToWIB(date: Date): Date {
+    // konversi ke waktu UTC, lalu tambahkan offset 7 jam (WIB)
+    const wibOffset = 7 * 60 * 60 * 1000; // 7 jam dalam ms
+    return new Date(date.getTime() + wibOffset);
+}
+
 export const addTimeSlotService = async (day: string, starTime: Date, endTime: Date) => {
     const timeSlot = await prisma.timeSlot.create({
         data: {
             day,
-            starTime,
-            endTime
+            starTime: convertToWIB(starTime),
+            endTime: convertToWIB(endTime)
         }
     });
 
