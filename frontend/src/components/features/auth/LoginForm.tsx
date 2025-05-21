@@ -38,7 +38,7 @@ export function LoginForm() {
                     description: "Silahkan tunggu, kamu sedang dialihkan."
                 })
                 const token = response.data.data.token;
-                document.cookie = `token=${token}; path=/; max-age=${30 * 24 * 60 * 60 * 1000}`
+                // document.cookie = `token=${token}; path=/; max-age=${30 * 24 * 60 * 60 * 1000}`
                 location.href = "/admin"
             }
         } catch (error: any) {

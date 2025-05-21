@@ -19,13 +19,24 @@ import {
 import axiosInstance from "@/lib/axios"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
+import { useState } from "react"
 
 export default function LogOutButton() {
     const router = useRouter()
-
+    const [isLoading, setIsLoading] = useState(false)
     const handleLogout = async () => {
-        document.cookie = "token=; path=/; max-age=0";
-        router.push("/admin/login", { scroll: false })
+        try {
+            setIsLoading(true)
+            const res = await axiosInstance.post("/auth/logout")
+
+            if (res.data.success) {
+                router.push("/admin/login", { scroll: false })
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     return (
@@ -50,7 +61,7 @@ export default function LogOutButton() {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Batal</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleLogout}>Logout</AlertDialogAction>
+                    <AlertDialogAction onSelect={e => e.preventDefault()} disabled={isLoading} onClick={handleLogout}>{isLoading ? "Loading..." : "Logout"}</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
