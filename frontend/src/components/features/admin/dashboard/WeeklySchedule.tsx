@@ -212,7 +212,7 @@ function SingleScheduleItem({ scheduleItem }: { scheduleItem: ScheduleItem }) {
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Time:</span>
-                <span>{scheduleItem.startTime} - {scheduleItem.endTime}</span>
+                <span>{formatTime(scheduleItem.startTime)} - {formatTime(scheduleItem.endTime)}</span>
               </div>
             </div>
           </div>
@@ -264,7 +264,7 @@ function MultipleScheduleItems({ scheduleItems }: { scheduleItems: ScheduleItem[
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Time:</span>
-                      <span>{item.startTime} - {item.endTime}</span>
+                      <span>{formatTime(item?.startTime)} - {formatTime(item?.endTime)}</span>
                     </div>
                   </div>
                 </div>
