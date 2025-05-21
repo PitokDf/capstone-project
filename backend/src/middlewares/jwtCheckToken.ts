@@ -4,7 +4,7 @@ import { verify } from "jsonwebtoken";
 export const jwtCheckToken = (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.cookie?.split(";").find(c => c.trim().startsWith("token="))?.split("=")[1] ?? null;
 
-    console.log("Token", token, "Request headers", req.headers);
+    console.log("Token", token, "Request headers", req.headers, "Authorization", req.headers.authorization);
 
     if (!token) return res.status(401).json({ messagge: "Token dibutuhkan." });
 

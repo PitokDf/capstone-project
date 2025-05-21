@@ -15,7 +15,11 @@ export async function login(req: Request, res: Response) {
         if (!matchPassword) return res.status(400).json({ message: "email atau password salah." });
 
         const token = await generateToken({ username: user.username, email: user.email, id: user.id, createdAt: user.createdAt })
-
+        res.cookie("token-backend", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none'
+        })
         return res.status(200).json({
             message: "Berhasil login",
             data: {
