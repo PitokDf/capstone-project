@@ -65,7 +65,7 @@ export function GenerateButton() {
                 <PopoverTrigger asChild>
                     <Button
                         variant={"ghost"}
-                        className='cursor-pointer hover:bg-card-foreground rounded-none'>
+                        className='cursor-pointer rounded-none'>
                         <Settings2 />
                     </Button>
                 </PopoverTrigger>

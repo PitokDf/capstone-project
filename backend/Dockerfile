@@ -1,16 +1,19 @@
-FROM node:18.20.4 AS builder
+FROM node:lts-alpine3.20
 
 WORKDIR /app
 
 COPY package*.json ./
 
-# RUN apt-get update -y && apt-get install -y openssl
-RUN npm cache clean --force
-RUN rm -rf node_modules package-lock.json
 RUN npm install
+
+COPY prisma prisma
+
+RUN npm run popinstall
+
 COPY . .
-RUN npx prisma generate
+
+RUN npm run build
 
 EXPOSE 2222
 
-CMD [ "npm", "run", "dev" ]
+CMD [ "node", "dist/src/server.js" ]

@@ -1,5 +1,6 @@
 import { prisma } from "../config/prisma";
 import { Schedule, ScheduleData } from "../types/types";
+import { getHoursWIB } from "./utils";
 
 /**
  * Fungsi untuk memeriksa validitas penempatan jadwal
@@ -322,7 +323,8 @@ export async function improvedBacktrackScheduling(
         score += dayScores[timeSlot.day as keyof typeof dayScores] || 0;
 
         // Prioritaskan slot pagi
-        const hour = timeSlot.starTime.getHours();
+        const hour = Number(getHoursWIB(timeSlot.starTime));
+
         if (hour >= 8 && hour <= 12) score += 5;      // Slot pagi
         else if (hour > 12 && hour <= 15) score += 3; // Siang awal
         else if (hour > 15 && hour <= 17) score += 1; // Siang akhir

@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   db:
     image: postgres:15.12-alpine3.21
@@ -7,7 +5,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: mydb
+      POSTGRES_DB: scheduler_courses_db
     volumes:
       - postgres-data:/var/lib/postgresql/data
     ports:
@@ -19,9 +17,14 @@ services:
     depends_on:
       - db
     environment:
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/mydb
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/scheduler_courses_db
+      - PORT=2222
+      - JWT_SECREET=iR++LRtav0AYML1GMXz+/XDk85uEnnOVk7QVSJF7TMw
+      - CLIENT_URL=http://192.168.221.41:5000
+      - NODE_ENV=development
+      - TZ='Asia/Jakarta'
     ports:
-      - "2222:2222"
+      - "4000:2222"
   
   frontend:
     build: ./frontend
@@ -29,9 +32,11 @@ services:
     depends_on:
       - backend
     environment:
-      - NEXT_PUBLIC_API_URL=http://backend:2222
+      - JWT_SECREET=iR++LRtav0AYML1GMXz+/XDk85uEnnOVk7QVSJF7TMw
+      - NEXT_PUBLIC_NODE_ENV=development
+      - TZ='Asia/Jakarta'
     ports:
-      - "3000:3000"
+      - "5000:3000"
 
 volumes:
   postgres-data:

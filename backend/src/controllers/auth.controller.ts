@@ -25,7 +25,6 @@ export async function login(req: Request, res: Response) {
             httpOnly: true, secure: true,
             sameSite: "none"
         })
-
         console.log(process.env.NODE_ENV);
 
         return res.status(200).json({

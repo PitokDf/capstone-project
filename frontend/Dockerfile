@@ -1,16 +1,17 @@
-FROM node:18.20.4 AS builder
+FROM node:lts-alpine3.20
 
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm cache clean --force
-RUN rm -rf node_modules package-lock.json
+
 RUN npm install
 
 COPY . .
 
+ENV NEXT_PUBLIC_API_URL=http://192.168.221.41:4000/api
+
 RUN npm run build
 
-EXPOSE 3000
+EXPOSE 5000
 
 CMD [ "npm", "run", "start" ]
