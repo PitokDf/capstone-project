@@ -199,19 +199,19 @@ function SingleScheduleItem({ scheduleItem }: { scheduleItem: ScheduleItem }) {
             <div className="font-bold mb-2">{scheduleItem.courseName}</div>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Class:</span>
+                <span className="text-white">Class:</span>
                 <span>{scheduleItem.className}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Lecturer:</span>
+                <span className="text-white">Lecturer:</span>
                 <span className="">{scheduleItem.lecturerName}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Room:</span>
+                <span className="text-white">Room:</span>
                 <span>{scheduleItem.roomName}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Time:</span>
+                <span className="text-white">Time:</span>
                 <span>{formatTime(scheduleItem.startTime)} - {formatTime(scheduleItem.endTime)}</span>
               </div>
             </div>
@@ -251,19 +251,19 @@ function MultipleScheduleItems({ scheduleItems }: { scheduleItems: ScheduleItem[
                   <div className="font-medium">{item.courseName}</div>
                   <div className="space-y-1 text-sm mt-1">
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Class:</span>
+                      <span className="text-white">Class:</span>
                       <span>{item.className}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Lecturer:</span>
+                      <span className="text-white">Lecturer:</span>
                       <span>{item.lecturerName}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Room:</span>
+                      <span className="text-white">Room:</span>
                       <span>{item.roomName}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Time:</span>
+                      <span className="text-white">Time:</span>
                       <span>{formatTime(item?.startTime)} - {formatTime(item?.endTime)}</span>
                     </div>
                   </div>
