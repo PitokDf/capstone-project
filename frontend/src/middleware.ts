@@ -4,6 +4,7 @@ import { jwtVerify } from 'jose'
 export async function middleware(req: NextRequest) {
     const token = req.cookies.get('token')?.value
     console.log(token);
+    console.log(req.cookies);
 
     const loginUrl = new URL('/admin/login', req.url)
 
