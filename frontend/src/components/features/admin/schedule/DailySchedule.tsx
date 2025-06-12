@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import axiosInstance from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import { ScheduleItem } from "../dashboard/WeeklySchedule";
+import { formatTime } from "@/lib/utils";
 
 interface DailyScheduleProps {
   filterType: string;
@@ -47,7 +48,7 @@ export function DailySchedule({ filterType, filterValue }: DailyScheduleProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-4">
-        <div className="w-48 space-y-3">
+        <div className="w-48 space-y-2">
           <Label>Select Day</Label>
           <Select value={selectedDay} onValueChange={setSelectedDay}>
             <SelectTrigger>
@@ -79,7 +80,7 @@ export function DailySchedule({ filterType, filterValue }: DailyScheduleProps) {
                   <div className="text-muted-foreground">{schedule.className}</div>
                 </div>
                 <Badge variant="outline" className="ml-2">
-                  {schedule.startTime} - {schedule.endTime}
+                  {formatTime(schedule.startTime)} - {formatTime(schedule.endTime)}
                 </Badge>
               </div>
               <div className="mt-4 grid grid-cols-2 gap-4">

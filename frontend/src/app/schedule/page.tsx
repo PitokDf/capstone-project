@@ -80,7 +80,7 @@ export default function PublicSchedulePage() {
                         </CardHeader>
                         <CardContent>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
+                                <div className='space-y-2'>
                                     <Label>Filter Type</Label>
                                     <Select value={filterType} onValueChange={setFilterType}>
                                         <SelectTrigger>
@@ -96,7 +96,7 @@ export default function PublicSchedulePage() {
                                 </div>
 
                                 {filterType !== "all" && (
-                                    <div>
+                                    <div className='space-y-2'>
                                         <Label>
                                             {filterType === "class"
                                                 ? "Select Class"

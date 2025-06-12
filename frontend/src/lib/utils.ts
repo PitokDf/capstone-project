@@ -7,5 +7,9 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const formatTime = (date: Date | string) => {
-  return format(date, 'HH:mm');
+  return new Date(date).toLocaleString('id-ID', {
+    timeZone: 'Asia/Jakarta',
+    hour: '2-digit',
+    minute: '2-digit'
+  })
 };
