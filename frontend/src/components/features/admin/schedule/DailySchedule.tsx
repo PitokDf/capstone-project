@@ -64,7 +64,7 @@ export function DailySchedule({ filterType, filterValue }: DailyScheduleProps) {
       </div>
 
       <div className="space-y-4">
-        {sortedSchedules.length === 0 ? (
+        {!isPending && sortedSchedules.length === 0 ? (
           <Card className="p-8 text-center h-[100px] text-muted-foreground">
             No schedules found for {selectedDay}
           </Card>
@@ -100,8 +100,8 @@ export function DailySchedule({ filterType, filterValue }: DailyScheduleProps) {
   );
 }
 
-const DailyScheduleSkeleton = ({ key }: { key: any }) =>
-  <Card key={key} className="p-4">
+const DailyScheduleSkeleton = () =>
+  <Card className="p-4">
     <div className="flex items-start justify-between">
       <div className="space-y-1">
         <Skeleton className="h-5 w-32" />
