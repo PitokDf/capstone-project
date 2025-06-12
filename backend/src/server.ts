@@ -14,8 +14,8 @@ app.use(cors({
     origin: ['https://capstone-project-rosy-seven.vercel.app', process.env.CLIENT_URL!], // url frontend
     methods: ["GET", "POST", "PUT", "DELETE"], // method yang diijinkan
     credentials: true, // agar bisa mengakses cookie dari frontend,
-    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
-    exposedHeaders: ['Set-Cookie']
+    // allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+    // exposedHeaders: ['Set-Cookie']
 }))
 
 app.set('trust proxy', 1)

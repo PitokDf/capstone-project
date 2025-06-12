@@ -1,7 +1,8 @@
 // components/AuthGuard.js
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import axiosInstance from '@/lib/axios';
+import { useRouter } from 'next/navigation';
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -24,6 +25,9 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
                         'Authorization': `Bearer ${token}`
                     }
                 });
+
+                console.log(response);
+
 
                 if (response.status === 200) {
                     setIsAuthenticated(true);
