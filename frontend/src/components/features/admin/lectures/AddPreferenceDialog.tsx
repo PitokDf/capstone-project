@@ -1,6 +1,7 @@
 'use client'
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { addOrDeleteLecturePrefrenceTime } from "@/lib/api/lecture";
 import { getTimeslots } from "@/lib/api/timeslot";
@@ -37,6 +38,12 @@ export function AddPrefrenceDialog({
         queryFn: getTimeslots,
         queryKey: ["timeslots"]
     })
+
+    const groupedTimeslots = timeslots?.reduce((acc, slot) => {
+        if (!acc[slot.day]) acc[slot.day] = [];
+        acc[slot.day].push(slot);
+        return acc;
+    }, {} as Record<string, typeof timeslots>);
 
     // Update atau Delete Dosen prefrence
     const qc = useQueryClient()
@@ -76,9 +83,26 @@ export function AddPrefrenceDialog({
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 py-4 max-h-[400px] overflow-auto">
-                    {[...new Set(timeslots?.map(slot => slot.day))].map((day, index) => (
-                        <div key={day + index} className="space-y-2">
-                            <h3 className="font-medium">{day}</h3>
+                    {Object.entries(groupedTimeslots!).map(([day, slots]) => (
+                        <div key={day} className="space-y-2">
+                            <div className="flex justify-between items-center px-4">
+                                <h3 className="font-medium">{day}</h3>
+                                <Checkbox
+                                    title="pilih semua"
+                                    checked={slots.every(slot => selectedTimeSlot.includes(slot.id))}
+                                    onCheckedChange={() => {
+                                        setSelectedTimeSlot(prev => {
+                                            const daySlotIds = slots.map(slot => slot.id);
+                                            const allSelected = daySlotIds.every(id => prev.includes(id));
+                                            if (allSelected) {
+                                                return prev.filter(id => !daySlotIds.includes(id));
+                                            } else {
+                                                return [...prev, ...daySlotIds.filter(id => !prev.includes(id))];
+                                            }
+                                        });
+                                    }}
+                                />
+                            </div>
                             <div className="space-y-1">
                                 {
                                     timeslots?.filter(slot => slot.day === day).length === 0 ? (
@@ -94,7 +118,7 @@ export function AddPrefrenceDialog({
                                                 onClick={() => handleSelectedTimeslot(slot.id)}>
                                                 <span>{formatTime(slot.starTime)} - {formatTime(slot.endTime)}</span>
                                                 {selectedTimeSlot.includes(slot.id) &&
-                                                    <Check className="w-4 h-4 text-green-600" />
+                                                    <Check className="w-4 h-4 text-white" />
                                                 }
                                             </div>
                                         ))

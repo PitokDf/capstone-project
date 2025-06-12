@@ -32,6 +32,7 @@ export default function LogOutButton() {
             if (res.data.success) {
                 document.cookie = `token=; path=/; max-age=;`
                 router.push("/admin/login", { scroll: false })
+                localStorage.removeItem('token')
             }
         } catch (error) {
             console.log(error);

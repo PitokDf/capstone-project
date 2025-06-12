@@ -9,6 +9,7 @@ import axiosInstance from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import { ScheduleItem } from "../dashboard/WeeklySchedule";
 import { formatTime } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface DailyScheduleProps {
   filterType: string;
@@ -25,10 +26,6 @@ export function DailySchedule({ filterType, filterValue }: DailyScheduleProps) {
     queryKey: ["schedules"]
   });
 
-  if (isPending || !scheduleData) return (
-    <p>Loadin...</p>
-  )
-
   // Filter schedules based on selected day and other filters
   const filteredSchedules = scheduleData?.filter(schedule => {
     const dayMatch = schedule.day === selectedDay;
@@ -41,9 +38,9 @@ export function DailySchedule({ filterType, filterValue }: DailyScheduleProps) {
   });
 
   // Sort schedules by start time
-  const sortedSchedules = [...filteredSchedules].sort((a, b) =>
+  const sortedSchedules = !isPending ? [...filteredSchedules!].sort((a, b) =>
     a.startTime.localeCompare(b.startTime)
-  );
+  ) : [];
 
   return (
     <div className="space-y-4">
@@ -71,7 +68,9 @@ export function DailySchedule({ filterType, filterValue }: DailyScheduleProps) {
           <Card className="p-8 text-center h-[100px] text-muted-foreground">
             No schedules found for {selectedDay}
           </Card>
-        ) : (
+        ) : (isPending ? Array.from({ length: 5 }).map((_, index) => (
+          <DailyScheduleSkeleton key={index} />
+        )) :
           sortedSchedules.map(schedule => (
             <Card key={schedule.id} className="p-4">
               <div className="flex items-start justify-between">
@@ -100,3 +99,25 @@ export function DailySchedule({ filterType, filterValue }: DailyScheduleProps) {
     </div>
   );
 }
+
+const DailyScheduleSkeleton = ({ key }: { key: any }) =>
+  <Card key={key} className="p-4">
+    <div className="flex items-start justify-between">
+      <div className="space-y-1">
+        <Skeleton className="h-5 w-32" />
+        <Skeleton className="h-5 w-16" />
+      </div>
+
+      <Skeleton className="w-10 h-5 rounded-full" />
+    </div>
+    <div className="mt-4 grid grid-cols-2 gap-4">
+      <div className="space-y-2">
+        <Skeleton className="h-5 w-16" />
+        <Skeleton className="h-5 w-28" />
+      </div>
+      <div className="space-y-2">
+        <Skeleton className="h-5 w-16" />
+        <Skeleton className="h-5 w-28" />
+      </div>
+    </div>
+  </Card>

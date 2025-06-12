@@ -142,7 +142,7 @@ export default function PublicSchedulePage() {
                     <Card
                         className='overflow-hidden'
                     >
-                        <Tabs defaultValue="weekly">
+                        <Tabs defaultValue="daily">
                             <CardHeader className="pb-0">
                                 <div className="flex justify-between items-center">
                                     <CardTitle>Schedule View</CardTitle>
