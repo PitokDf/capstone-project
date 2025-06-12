@@ -22,7 +22,8 @@ export async function login(req: Request, res: Response) {
             expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
             secure: config.isProduction,
             sameSite: config.isProduction ? 'none' : 'lax',
-            path: '/'
+            path: '/',
+            ...(config.isProduction && { partitioned: true })
         })
 
         console.log('Environment:', config.nodeEnv);
