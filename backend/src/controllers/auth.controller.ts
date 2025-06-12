@@ -3,6 +3,7 @@ import { loginService, registerService } from '../services/auth.service';
 import { handlerAnyError } from '../utils/errorHandler';
 import { hashPassword, verifyPassword } from '../utils/bcrypt';
 import { generateToken } from '../utils/jwt';
+import { config } from "../config/config";
 
 export async function login(req: Request, res: Response) {
     try {
@@ -16,16 +17,16 @@ export async function login(req: Request, res: Response) {
 
         const token = await generateToken({ username: user.username, email: user.email, id: user.id, createdAt: user.createdAt })
 
-        process.env.NODE_ENV === "development" ? res.cookie("token", token, {
-            httpOnly: true,
+        res.cookie('token', token, {
+            httpOnly: config.isProduction,
             expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-            secure: false,
-            sameSite: "lax"
-        }) : res.cookie("token", token, {
-            httpOnly: true, secure: true,
-            sameSite: "none"
+            secure: config.isProduction,
+            sameSite: config.isProduction ? 'none' : 'lax',
+            path: '/'
         })
-        console.log(process.env.NODE_ENV);
+
+        console.log('Environment:', config.nodeEnv);
+        console.log('Cookie secure:', config.isProduction);
 
         return res.status(200).json({
             message: "Berhasil login",
