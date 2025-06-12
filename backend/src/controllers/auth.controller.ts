@@ -16,12 +16,12 @@ export async function login(req: Request, res: Response) {
         if (!matchPassword) return res.status(400).json({ message: "email atau password salah." });
 
         const token = await generateToken({ username: user.username, email: user.email, id: user.id, createdAt: user.createdAt })
-        res.setHeader('Access-Control-Allow-Credentials', 'true')
-        res.setHeader('Access-Control-Allow-Origin', config.clientUrl)
+        // res.setHeader('Access-Control-Allow-Credentials', 'true')
+        // res.setHeader('Access-Control-Allow-Origin', config.clientUrl)
 
-        res.setHeader('Set-Cookie', [
-            `token=${token}; ${config.isProduction && "HttpOnly"}; ${config.isProduction && "Secure"}; SameSite=None; Partitioned; Path=/; Max-Age=${30 * 24 * 60 * 60}; Domain=schedule-course.vercel.app`
-        ])
+        // res.setHeader('Set-Cookie', [
+        //     `token=${token}; ${config.isProduction && "HttpOnly"}; ${config.isProduction && "Secure"}; SameSite=None; Partitioned; Path=/; Max-Age=${30 * 24 * 60 * 60}; Domain=schedule-course.vercel.app`
+        // ])
         // res.cookie('token', token, {
         //     httpOnly: config.isProduction,
         //     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),

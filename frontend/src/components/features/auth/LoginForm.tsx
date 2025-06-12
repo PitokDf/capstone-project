@@ -38,6 +38,7 @@ export function LoginForm() {
                     description: "Silahkan tunggu, kamu sedang dialihkan."
                 })
                 const token = response.data.data.token;
+                localStorage.setItem('auth_token', token)
                 // document.cookie = `token=${token}; path=/; max-age=${30 * 24 * 60 * 60 * 1000}; ${process.env.NEXT_PUBLIC_NODE_ENV === "production" && "Secure"}; SameSite=None`
                 location.href = "/admin"
             }

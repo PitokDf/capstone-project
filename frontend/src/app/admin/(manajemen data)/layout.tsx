@@ -5,6 +5,7 @@ import AdminAppBar from "@/components/layouts/AppBar";
 import { AppSidebar } from "@/components/layouts/sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import 'nprogress/nprogress.css';
+import AuthGuard from '@/components/AuthGuard';
 
 export default function AdminLayout({
     children,
@@ -12,21 +13,23 @@ export default function AdminLayout({
     children: React.ReactNode;
 }) {
     return (
-        <SidebarProvider>
-            <AppSidebar />
-            <div className='flex-1 overflow-auto'>
+        <AuthGuard>
+            <SidebarProvider>
+                <AppSidebar />
+                <div className='flex-1 overflow-auto'>
 
-                <AdminAppBar />
-                <main className=" md:p-6 max-w-7xl mx-auto">
-                    <div className="flex-1 p-4">
-                        <AppProgressBar
-                            color='#fff'
-                            shallowRouting
-                            disableStyle={true} />
-                        {children}
-                    </div>
-                </main>
-            </div>
-        </SidebarProvider>
+                    <AdminAppBar />
+                    <main className=" md:p-6 max-w-7xl mx-auto">
+                        <div className="flex-1 p-4">
+                            <AppProgressBar
+                                color='#fff'
+                                shallowRouting
+                                disableStyle={true} />
+                            {children}
+                        </div>
+                    </main>
+                </div>
+            </SidebarProvider>
+        </AuthGuard>
     );
 }
