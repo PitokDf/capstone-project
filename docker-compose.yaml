@@ -10,7 +10,7 @@ services:
       - postgres-data:/var/lib/postgresql/data
     ports:
       - "5433:5432"
-  
+
   backend:
     build: ./backend
     restart: always
@@ -20,12 +20,12 @@ services:
       - DATABASE_URL=postgres://postgres:postgres@db:5432/scheduler_courses_db
       - PORT=2222
       - JWT_SECREET=iR++LRtav0AYML1GMXz+/XDk85uEnnOVk7QVSJF7TMw
-      - CLIENT_URL=http://192.168.221.41:5000
+      - CLIENT_URL=http://localhost:5000
       - NODE_ENV=development
       - TZ='Asia/Jakarta'
     ports:
       - "4000:2222"
-  
+
   frontend:
     build: ./frontend
     restart: always

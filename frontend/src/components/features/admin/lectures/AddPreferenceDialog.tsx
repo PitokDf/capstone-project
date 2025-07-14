@@ -24,6 +24,8 @@ export function AddPrefrenceDialog({
     open = false
 }: AddPreferenceDialogProps) {
     const [selectedTimeSlot, setSelectedTimeSlot] = useState<number[]>(lecturer.prefrredSlots.map(timePrefrence => timePrefrence.timeslotID) || [])
+    // Update atau Delete Dosen prefrence
+    const qc = useQueryClient()
 
     const handleSelectedTimeslot = (slotId: number) => {
         if (selectedTimeSlot.includes(slotId)) {
@@ -34,19 +36,10 @@ export function AddPrefrenceDialog({
     }
 
     // ambiak data dari API
-    const { data: timeslots } = useQuery({
+    const { data: timeslots, isPending: isTimeSlotFetching } = useQuery({
         queryFn: getTimeslots,
         queryKey: ["timeslots"]
     })
-
-    const groupedTimeslots = timeslots?.reduce((acc, slot) => {
-        if (!acc[slot.day]) acc[slot.day] = [];
-        acc[slot.day].push(slot);
-        return acc;
-    }, {} as Record<string, typeof timeslots>);
-
-    // Update atau Delete Dosen prefrence
-    const qc = useQueryClient()
 
     const { mutateAsync, isPending } = useMutation({
         mutationFn: async ({ id, preferenceIds }: { id: number, preferenceIds: number[] }) =>
@@ -67,6 +60,16 @@ export function AddPrefrenceDialog({
         }
     })
 
+    if (isTimeSlotFetching || isPending) return null
+
+    const groupedTimeslots = timeslots?.reduce((acc, slot) => {
+        if (!acc[slot.day]) acc[slot.day] = [];
+        acc[slot.day].push(slot);
+        return acc;
+    }, {} as Record<string, typeof timeslots>);
+
+
+
     const handleAddOrDeleteLecturePrefrence = async (lectureID: number, prefrenceIds: number[]) => {
         console.log(prefrenceIds);
 
@@ -74,7 +77,7 @@ export function AddPrefrenceDialog({
     }
 
     return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
+        <Dialog open={open && !isTimeSlotFetching} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[500px]">
                 <DialogHeader>
                     <DialogTitle>Lecturer Time Preferences</DialogTitle>
